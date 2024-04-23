@@ -1,4 +1,4 @@
-Django>=4.1,<4.2
+Django
 wagtail
 psycopg2-binary
 djangorestframework
@@ -13,12 +13,11 @@ django-threadlocals
 pyproj
 pip
 django-storages
-djangorestframework-recaptcha
 gunicorn
-firebase_admin
-firebase-rest-api
 drf_dynamic_fields
 whitenoise
 django-session-timeout
 drf-spectacular
 django-defender
+gdmty-drf-firebase-auth
+gdmty-django-recaptcha-enterprise
