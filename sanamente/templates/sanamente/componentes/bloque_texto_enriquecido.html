@@ -1,0 +1,7 @@
+{% load wagtailcore_tags wagtailimages_tags richtext_embeds %}
+
+<!-- Bloque Texto Enriquecido -->
+<div class="texto-enriquecido-contenedor max-width-content q-mx-auto">
+    <div class="texto-enriquecido-contenedor-interno">{{ block.value|add_class_to_richtext_embeds|safe  }}</div>
+</div>
+<!-- Bloque Texto Enriquecido -->

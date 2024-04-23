@@ -1,0 +1,29 @@
+<div class="bloque-expandible-contenedor q-py-md">
+    <div class="bloque-item-contenedor-interno max-width-content q-mx-auto">
+        <q-list v-model="item"
+                bordered
+                inline-label
+                narrow-indicator
+                no-caps
+                active-color="primary"
+                indicator-color="primary"
+                class="rounded-borders max-width-content q-my-lg q-mx-auto box-shadow-soft">
+            {% for item in block.value %}
+                <q-expansion-item
+                        expand-separator
+                        icon="{{ item.value.icono }}"
+                        name="{{ forloop.counter0 }}"
+                        label="{{ item.value.etiqueta }}"
+                        header-class="text-{{ item.value.color_header }}"
+                        style="background-color: #ffffff11;"
+                >
+                    <q-card style="background-color: #ffffff11;">
+                        <q-card-section>
+                            <div class="max-width-text">{{ item.value.contenido }}</div>
+                        </q-card-section>
+                    </q-card>
+                </q-expansion-item>
+            {% endfor %}
+        </q-list>
+    </div>
+</div>

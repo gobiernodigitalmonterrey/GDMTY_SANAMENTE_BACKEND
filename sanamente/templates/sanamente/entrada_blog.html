@@ -1,0 +1,65 @@
+{% extends 'sanamente/base.html' %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+    <!-- Portada Imagen Principal-->
+    {% if page.mostrar_imagen_principal %}
+    <div class="full-width">
+        <div class="q-mb-lg">
+            {% image page.imagen_principal width-1200 as imagen_principal %}
+            <q-img src="{{ imagen_principal.url }}"
+                   alt="{{ imagen_principal.title }}"
+                   v-bind:height="$q.screen.lt.sm ? '250px' : $q.screen.lt.lg ? '350px' : '400px'">
+                <div class="absolute-center text-h3 text-weight-regular bg-transparent text-shadow-dark">
+                    {{ page.title }}
+                </div>
+            </q-img>
+        </div>
+    </div>
+    {% endif %}
+        {% if not page.mostrar_imagen_principal %}
+            <div class="text-h2 text-weight-regular bloque-encabezado max-width-content q-px-lg q-my-xl q-mx-auto">
+                {{ page.title }}
+                <q-separator class="q-my-lg"></q-separator>
+            </div>
+        {% endif %}
+
+    <div class="q-px-lg">
+        <div>
+            <div class="text-overline text-grey-8">{{ page.categoria.nombre }}</div>
+        </div>
+    </div>
+
+    <div class="row max-width-content q-mx-auto q-col-gutter-x-lg q-pr-lg content-stretch q-mb-md">
+        <div class="q-pt-lg">
+            {# Aquí se incluye el include del cuerpo/contenido, que es común a todas las páginas #}
+            {% include './contenido.html' %}
+        </div>
+    </div>
+
+    {% include './componentes/cintillo_etiquetas.html' %}
+
+    {% if page.autor %}
+    <div class="max-width-content q-mx-auto q-px-lg q-mb-xl full-width">
+        <div class="bg-cyan-9 text-white q-pa-lg row">
+            <div class="col-12 col-xs-5 col-sm-4 col-md-3 q-pa-md text-center">
+                {% if page.autor.avatar %}
+                {% image page.autor.avatar fill-300x300 as avatar %}
+                <q-avatar size="150px" text-color="white">
+                    <img src="{{ avatar.url }}" alt="{{ avatar.alt }}">
+                </q-avatar>
+                {% endif %}
+            </div>
+            <div class="col-12 col-xs-7 col-sm-8 col-md-9">
+                <h6 class="q-mt-md q-mb-lg">{{ page.autor }}</h6>
+                {% if page.autor.biografia_autor %}
+                <p>
+                   {{ page.autor.biografia_autor|safe }}
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock content %}

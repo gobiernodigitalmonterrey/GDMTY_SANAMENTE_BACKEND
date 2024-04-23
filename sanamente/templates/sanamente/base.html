@@ -1,0 +1,188 @@
+{% load static wagtailcore_tags wagtailuserbar %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <title>
+        {% block title %}
+            {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
+        {% endblock %}
+        {% block title_suffix %}
+            {% wagtail_site as current_site %}
+            {% if current_site and current_site.site_name %}- {{ current_site.site_name }}{% endif %}
+        {% endblock %}
+    </title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    {# Force all links in the live preview panel to be opened in a new tab #}
+    {% if request.in_preview_panel %}
+        <base target="_blank">
+    {% endif %}
+
+    {# Global stylesheets #}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/MTY_SANAMENTE.css' %}">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/npm/@mdi/font@^6.0.0/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons">
+    <link href="https://cdn.jsdelivr.net/npm/quasar@2.11.5/dist/quasar.prod.css" rel="stylesheet" type="text/css">
+
+
+    {% block extra_css %}
+        {# Override this in templates to add extra stylesheets #}
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/quasar@2.7.7/dist/quasar.prod.css">
+        {# TODO: Agregar una hoja estilos adecuada del CMS a static #}
+        <style>
+        </style>
+    {% endblock %}
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+{% wagtailuserbar %}
+
+<div id="q-app-umd">
+    <q-layout view="hHh lpR fff">
+        <q-header elevated bordered reveal class="bg-white text-grey-9"
+                  v-bind:style="$q.screen.lt.md ? 'min-height: 65px;' : 'min-height: 79px;'">
+            <q-toolbar class="q-py-none justify-between"
+                       v-bind:style="$q.screen.lt.md ? 'height: 65px;' : 'height: 79px;'">
+                <q-toolbar-title class="col-auto flex no-wrap justify-start items-center">
+                    <div class="lt-md">
+                        <q-btn
+                                class="lt-md q-mr-sm"
+                                dense
+                                flat
+                                round
+                                icon="menu"
+                        ></q-btn>
+                    </div>
+
+                    <!--Logo e isotipo Gobierno de Monterrey-->
+                    <a
+                            href="/"
+                            title="Gobierno de Monterrey"
+                            class="flex no-wrap"
+                            style="height: 64px; flex-shrink: 0;"
+                    >
+                        <img style="height: 64px;" src="https://micro.appsmty.gob.mx/img/gdm/mty_gdm_logo_iso.svg"
+                             alt=""/>
+                        <img v-show="$q.screen.gt.xs" style="height: 64px;"
+                             src="https://micro.appsmty.gob.mx/img/gdm/mty_gdm_logo_tipo.svg" alt=""/>
+                    </a>
+
+                    <!--Logo e isotipo Sanamente-->
+                    <a v-show="!buscador" href="https://sanamente.monterrey.gob.mx" target="_blank" title="Sanamente">
+                        <q-avatar square size="3.5rem">
+                          <img src="https://micro.appsmty.gob.mx/img/sdh/mty_sdh_logo_iso.svg" alt="Sanamente"/>
+                        </q-avatar>
+                        <q-avatar v-show="$q.screen.gt.xs" square size="3.5rem" style="width: auto;">
+                          <img src="https://micro.appsmty.gob.mx/img/sdh/sam/mty_sdh_sam_logo_tipo.svg" alt="Sanamente"/>
+                        </q-avatar>
+                    </a>
+
+                </q-toolbar-title>
+                <div class="flex column">
+                    <q-tabs
+                            inline-label
+                            outside-arrows
+                            mobile-arrows
+                            indicator-color="primary"
+                            dense
+                            shrink
+                            no-caps
+                            class="self-end order-last gt-sm justify-end"
+                    >
+
+
+                        <span><q-icon name="home" color="transparent"></q-icon></span>
+
+                    </q-tabs>
+
+                    <div class="text-right q-pt-sm order-first row justify-end">
+                        <div class="q-gutter-sm row items-center no-wrap">
+                            <q-btn round dense flat
+                                   color="text-grey-7"
+                                   icon="search"
+                            >
+                            </q-btn>
+
+                            <q-btn round dense flat
+                                   color="text-grey-7"
+                                   icon="apps"
+                                   class="relative-position"></q-btn>
+                            <q-btn round disable flat dense icon="mdi-account-circle"></q-btn>
+                        </div>
+                    </div>
+                </div>
+            </q-toolbar>
+
+            <q-tabs align="left" class="bg-cyan-9 text-white">
+
+                <q-tab no-caps icon="mdi-phone"
+                             label="Teléfonos de emergencia"></q-tab>
+                <q-tab no-caps icon="mdi-flower-tulip"
+                             label="Actividades de bienestar"></q-tab>
+                <q-tab no-caps icon="mdi-head-cog"
+                             label="Servicios profesionales"></q-tab>
+
+            </q-tabs>
+
+        </q-header>
+
+        <q-page-container>
+            {% block content %}{% endblock %}
+        </q-page-container>
+
+    </q-layout>
+</div>
+{# Global javascript #}
+<script type="text/javascript" src="{% static 'js/MTY_SANAMENTE.js' %}"></script>
+
+{% block extra_js %}
+    {# Override this in templates to add extra javascript #}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/quasar@2.7.7/dist/quasar.umd.prod.js"></script>
+    <script type="text/javascript">
+        // Inicializa vue de los  los scripts
+        const {ref} = Vue
+        const {useQuasar, scroll} = Quasar
+        const app = Vue.createApp({
+            setup() {
+                const tab = ref(0)
+                const slide_principal = ref(0)
+                const slide = ref(0)
+                return {
+                    tab, // Valor inicial de Tabs
+                    slide_principal,
+                    slide,
+                }
+            }
+        })
+
+        app.use(Quasar, {
+            config: {
+                notify: {},
+                loadingBar: {skipHijack: true},
+                //* Overrides de colores */
+                brand: {
+                  primary: '#0d68b3',
+                  secondary: '#757575',
+                  accent: '#0da9b8',
+
+                  dark: '#2b2b2b',
+
+                  positive: '#21ba45',
+                  negative: '#a82534',
+                  info: '#66e7f2',
+                  warning: '#f2c037',
+                  // ...
+                }
+            }
+        })
+        app.mount('#q-app-umd')
+    </script>
+{% endblock %}
+</body>
+</html>

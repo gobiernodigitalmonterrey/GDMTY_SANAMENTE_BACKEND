@@ -1,0 +1,34 @@
+{% extends 'sanamente/base.html' %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+    <div class="text-h3 text-weight-regular bloque-encabezado max-width-content q-px-lg q-my-xl q-mx-auto">
+        {{ page.title }}
+        <q-separator class="q-my-lg"></q-separator>
+    </div>
+
+    <div class="q-px-lg">
+        <div>
+            <div class="text-overline text-grey-8">{{ page.categoria.nombre }}</div>
+        </div>
+    </div>
+
+    <div class="col-8">
+      <div class="q-px-lg">
+        <p class="text-h4">{{ page.telefono }}</p>
+
+        <div class="q-pt-lg">
+            {# Aquí se incluye el include del cuerpo/contenido, que es común a todas las páginas #}
+            {% include './contenido.html' %}
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-8 q-my-lg">
+        {% include './componentes/cintillo_etiquetas.html' %}
+    </div>
+
+
+{% endblock content %}

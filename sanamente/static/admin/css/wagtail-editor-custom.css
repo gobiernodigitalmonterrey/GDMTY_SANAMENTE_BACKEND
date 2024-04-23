@@ -1,0 +1,4 @@
+/** Clase de cs para corregir altura no especificada en OSM Widget */
+#panel-child-contenido-geom-content .w-field__wrapper {
+    height: 400px;
+}

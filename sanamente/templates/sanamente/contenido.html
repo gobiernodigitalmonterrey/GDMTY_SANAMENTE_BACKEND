@@ -1,0 +1,27 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+
+<!-- Sección cuerpo/contenido -->
+
+    {% for block in page.contenido %}
+        {% if block.block_type == 'texto_enriquecido' %}
+
+            {% include './componentes/bloque_texto_enriquecido.html' %}
+
+        {% elif block.block_type == 'tabs' %}
+
+            {% include './componentes/bloque_tabs.html' %}
+
+        {% elif block.block_type == 'expandible' %}
+
+            {% include './componentes/bloque_elemento_expandible.html' %}
+
+        {% elif block.block_type == 'linea_tiempo' %}
+
+            {% include './componentes/bloque_linea_tiempo.html' %}
+
+        {% endif %}
+
+    {% endfor %}
+
+<!-- Sección cuerpo/contenido -->

@@ -1,0 +1,27 @@
+{% extends 'sanamente/base.html' %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+    <main>
+        <div class="max-width-content q-mx-auto q-px-lg q-mt-lg">
+            <div class="text-h2">
+                {{ page.title }}
+            </div>
+        </div>
+
+        <div class="pagina-contenedor q-pt-lg">
+            <div class="q-pa-lg">
+                <q-card bordered flat class="no-box-shadow max-width-content q-mx-auto q-my-lg q-pa-lg">
+                    <div class="text-subtitle q-mb-lg">
+                    La vista previa de páginas grupo no disponible.
+                    </div>
+                    <div class="text-body1">
+                        Esta página sólo agrupa sus páginas hijas, no se muestra como página en la interfaz.
+                    </div>
+                </q-card>
+            </div>
+        </div>
+    </main>
+
+{% endblock content %}

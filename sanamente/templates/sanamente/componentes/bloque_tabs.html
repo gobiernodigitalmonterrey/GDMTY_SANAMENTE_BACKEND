@@ -1,0 +1,45 @@
+{% load wagtailcore_tags wagtailimages_tags richtext_embeds %}
+
+<div class="bloque-tabs-contenedor q-py-md">
+    <div class="bloque-tabs-contenedor-interno max-width-content q-mx-auto">
+        <q-card bordered class="max-width-content q-my-lg q-mx-auto box-shadow-soft">
+            <q-tabs
+                    v-model="tab"
+                    class="text-grey-8"
+                    active-color="primary"
+                    indicator-color="primary"
+                    align="left"
+                    inline-label
+                    narrow-indicator
+                    no-caps
+            >
+                {% for item in block.value %}
+                    <q-tab :name="{{ forloop.counter0 }}" label="{{ item.value.etiqueta }}"></q-tab>
+                {% endfor %}
+
+            </q-tabs>
+
+            <q-separator></q-separator>
+
+            <q-tab-panels
+                    v-model="tab"
+                    animated
+                    transition-prev="fade"
+                    transition-next="fade"
+            >
+                {% for item in block.value %}
+                    <q-tab-panel :name="{{ forloop.counter0 }}">
+                        <!-- Bloque Texto Enriquecido -->
+                        <div class="texto-enriquecido-contenedor max-width-content q-mx-auto">
+                            <div class="texto-enriquecido-contenedor-interno">
+                                {{ item.value.contenido|add_class_to_richtext_embeds|safe }}
+                            </div>
+                        </div>
+                        <!-- Bloque Texto Enriquecido -->
+                    </q-tab-panel>
+                {% endfor %}
+            </q-tab-panels>
+
+        </q-card>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+{% load wagtailcore_tags wagtailimages_tags richtext_embeds %}
+
+<!-- Bloque Línea de tiempo -->
+<div class="q-py-lg q-my-lg">
+    <div class="lineatiempo-contenedor max-width-content q-mx-auto">
+        <div class="bloque-linea-tiempo row q-col-gutter-x-md q-col-gutter-y-xs">
+            <q-timeline color="secondary"
+                        side="right"
+                        class="q-px-lg">
+                {% for item in block.value %}
+                    {{ item.value.avatar.meta.small.src }}
+                    <q-timeline-entry
+                            title="{{ item.value.titulo }}"
+                            subtitle="{{ item.value.subtitulo }}"
+                            color="{{ item.value.color }}"
+                            {% if item.value.avatar != null %}
+                                {% image item.value.avatar width-100 as avatar %}
+                            avatar="{{ avatar.url }}"
+                            {% endif %}
+                            {% if item.value.icono != null %}
+                            icon="{{ item.value.icono }}"
+                            {% endif %}
+                    >
+                        <div class="max-width-text">{{ item.value.contenido|add_class_to_richtext_embeds|safe }}</div>
+                    </q-timeline-entry>
+                {% endfor %}
+
+            </q-timeline>
+        </div>
+    </div>
+</div>
+<!-- Bloque Línea de tiempo -->

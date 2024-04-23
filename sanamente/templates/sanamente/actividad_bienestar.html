@@ -1,0 +1,64 @@
+{% extends 'sanamente/base.html' %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+    {% if page.imagen %}
+    {% image page.imagen width-1200 as imagen %}
+    <q-img
+      src="{{ imagen.url }}"
+      class="full-width" height="300px">
+
+      <div class="absolute-full text-subtitle2 flex flex-center detail-title">
+        <h4>{{ page.title }}</h4>
+      </div>
+
+      {% if page.categoria %}
+      <div class="absolute-top-left flex flex-center">
+        <span class="router-link-cat">
+          <div class="text-subtitle2">{{ page.categoria.nombre }}</div>
+        </span>
+      </div>
+      {% endif %}
+
+      {% if page.especialidad %}
+      <div class="absolute-bottom-right flex flex-center">
+        <span class="router-link-cat">
+          <div class="text-subtitle2">{{ page.especialidad.nombre }}</div>
+        </span>
+      </div>
+      {% endif %}
+
+    </q-img>
+    {% endif %}
+
+    <div class="q-pa-lg">
+      <div class="row">
+
+        <div class="col-8">
+          <div class="q-px-lg">
+            <div class="col-12 q-pb-lg text-left">
+              <q-rating readonly :model-value="3.5" color="grey" color-selected="yellow" :max="5"
+                        size="18px"></q-rating>
+              <span class="text-caption text-grey q-ml-sm">4.2 (551)</span>
+            </div>
+
+            <div class="q-pt-lg">
+                {# Aquí se incluye el include del cuerpo/contenido, que es común a todas las páginas #}
+                {% include './contenido.html' %}
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-8 q-my-lg">
+            {% include './componentes/cintillo_etiquetas.html' %}
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+{% endblock content %}

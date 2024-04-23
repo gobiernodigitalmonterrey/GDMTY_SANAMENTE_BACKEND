@@ -1,0 +1,16 @@
+{# Bloque cintillo de etiquetas #}
+
+<div class="row max-width-content q-mx-auto q-col-gutter-x-lg q-pr-lg content-stretch q-mb-xl">
+    <div class="q-px-lg full-width text-right">
+        <div class="row q-gutter-sm text-right justify-end no-wrap">
+        {% for etiqueta in page.etiquetas.all %}
+            <q-btn icon="mdi-tag" type="a" size="sm" rounded color="cyan-9" no-wrap
+                   class="q-py-xs q-px-sm" no-caps outline>
+                <span class="q-pl-xs">
+                    {{ etiqueta.name|capfirst }}
+                </span>
+            </q-btn>
+        {% endfor %}
+        </div>
+    </div>
+</div>

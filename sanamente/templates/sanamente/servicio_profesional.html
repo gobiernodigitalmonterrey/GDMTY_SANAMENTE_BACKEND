@@ -1,0 +1,74 @@
+{% extends 'sanamente/base.html' %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+    <div class="q-pa-lg">
+      <div class="row">
+        <div class="col-sm-4 col-xs-12 q-pb-lg" :class="$q.screen.lt.sm ? 'q-px-lg' : ''">
+
+         <div class="row q-pb-md">
+            {% if page.fotografia %}
+                {% image page.fotografia fill-800x800 as fotografia %}
+                <q-img src="{{ fotografia.url }}"
+                        class="servicio-profesional-detail-title-img"></q-img>
+            {% endif %}
+          </div>
+
+          {% if page.areas_experiencia %}
+          <div class="row">
+            <div class="full-width">
+              <div>{{ page.areas_experiencia|safe }}</div>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if page.modalidad %}
+          <div class="row">
+            <div class="full-width">
+              <p>{{ page.modalidad.nombre }}</p>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if page.modalidad %}
+          {% if page.modalidad.nombre|lower == 'presencial' %}
+          <div class="row">
+            <div class="col-12 full-width">
+              <p>{{ page.domicilio }}</p>
+            </div>
+            {% if page.geom %}
+            <div class="col-12 bg-green-6 full-width">
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+          {% endif %}
+
+        </div>
+
+        <div class="col-sm-8 col-xs-12">
+          <div class="q-px-lg">
+            <p class="text-h4">{{ page.title }}</p>
+            <div class="col-12 q-pb-lg text-right">
+              <q-rating readonly :model-value="3.5" color="grey" color-selected="yellow" :max="5"
+                        size="18px"></q-rating>
+              <span class="text-caption text-grey q-ml-sm">4.2 (551)</span>
+            </div>
+
+            <div class="q-pt-lg">
+                {# Aquí se incluye el include del cuerpo/contenido, que es común a todas las páginas #}
+                {% include './contenido.html' %}
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-12">
+            {% include './componentes/cintillo_etiquetas.html' %}
+        </div>
+
+      </div>
+    </div>
+
+{% endblock content %}
