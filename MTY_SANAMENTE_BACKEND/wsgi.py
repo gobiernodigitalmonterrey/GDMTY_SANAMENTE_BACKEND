@@ -1,5 +1,5 @@
 """
-WSGI config for MTY_SANAMENTE project.
+WSGI config for MTY_SANAMENTE_BACKEND project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -12,7 +12,7 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 run_environment = os.getenv("RUN_ENVIRONMENT", "dev")
-settings_module = f"MTY_SANAMENTE.settings.{environment_type}"
+settings_module = f"MTY_SANAMENTE_BACKEND.settings.{environment_type}"
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_module)
 

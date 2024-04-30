@@ -1,5 +1,5 @@
 # Use an official Python runtime based on Debian 10 "buster" as a parent image.
-FROM python:3.8.1-slim-buster
+FROM python:3.12.3-slim-buster
 
 # Add user that will be used in the container.
 RUN useradd wagtail
@@ -57,4 +57,4 @@ RUN python manage.py collectstatic --noinput --clear
 #   PRACTICE. The database should be migrated manually or using the release
 #   phase facilities of your hosting platform. This is used only so the
 #   Wagtail instance can be started with a simple "docker run" command.
-CMD set -xe; python manage.py migrate --noinput; gunicorn MTY_SANAMENTE.wsgi:application
+CMD set -xe; python manage.py migrate --noinput; gunicorn MTY_SANAMENTE_BACKEND.wsgi:application
