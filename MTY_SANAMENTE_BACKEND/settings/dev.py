@@ -1,4 +1,6 @@
 from .base import *
+import os
+import ast
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -21,7 +23,7 @@ except ImportError:
     pass
 
 if DEBUG is False:
-    TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_nodebug'))
+    TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_dev'))
     MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')
     STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
     INSTALLED_APPS += ['whitenoise.runserver_nostatic']

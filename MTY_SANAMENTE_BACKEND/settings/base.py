@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from corsheaders.defaults import default_headers
+import ast
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -52,33 +52,27 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_recaptcha',
     'corsheaders',
-    'storages',
-    'defender',
-
-    'mty_firebase_auth',
-    'auditlog',
 
     'sanamente',
-
     'django_filters',
     'drf_dynamic_fields',
-
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     'django_session_timeout.middleware.SessionTimeoutMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    'defender.middleware.FailedLoginMiddleware',
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
-    'threadlocals.middleware.ThreadLocalMiddleware',
-    'auditlog.middleware.AuditlogMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    # 'threadlocals.middleware.ThreadLocalMiddleware',
+    # 'auditlog.middleware.AuditlogMiddleware',
 ]
 
 ROOT_URLCONF = "MTY_SANAMENTE_BACKEND.urls"
@@ -205,6 +199,16 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
+
+
+if ast.literal_eval(os.getenv("USE_DJANGO_STORAGE", "False")):
+    print("Using Django Storage")
+    try:
+        from .storages import *
+    except ImportError:
+        print("No storages file found")
+        raise ImportError("No storages configuration file found")
+
 
 SESSION_EXPIRE_SECONDS = 600
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
