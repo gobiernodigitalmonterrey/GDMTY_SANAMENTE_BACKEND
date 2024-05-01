@@ -1,5 +1,5 @@
-Django
 wagtail
+Django
 psycopg2-binary
 djangorestframework
 markdown

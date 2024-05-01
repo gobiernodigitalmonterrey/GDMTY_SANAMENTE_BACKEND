@@ -1,5 +1,5 @@
 # Use an official Python runtime based on Debian 10 "buster" as a parent image.
-FROM python:3.12.3-slim-buster
+FROM python:3.12.3-slim-bookworm
 
 # Add user that will be used in the container.
 RUN useradd wagtail
@@ -18,14 +18,12 @@ ENV PYTHONUNBUFFERED=1 \
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
     build-essential \
     libpq-dev \
-    libmariadbclient-dev \
+    libgdal-dev \
     libjpeg62-turbo-dev \
     zlib1g-dev \
     libwebp-dev \
- && rm -rf /var/lib/apt/lists/*
-
-# Install the application server.
-RUN pip install "gunicorn==20.0.4"
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install gdal==$(gdal-config --version)
 
 # Install the project requirements.
 COPY requirements.txt /
