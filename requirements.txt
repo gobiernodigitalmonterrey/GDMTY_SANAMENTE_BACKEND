@@ -8,16 +8,14 @@ django-filter
 google-cloud-recaptcha-enterprise
 wagtailosm
 django-cors-headers
-gdal
 django-threadlocals
 pyproj
-pip
 django-storages
 gunicorn
-drf_dynamic_fields
 whitenoise
 django-session-timeout
 drf-spectacular
 django-defender
 gdmty-drf-firebase-auth
 gdmty-django-recaptcha-enterprise
+gdmty-django-users

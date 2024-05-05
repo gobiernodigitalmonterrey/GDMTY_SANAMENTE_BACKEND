@@ -1,4 +1,4 @@
-from django.contrib.gis.db import models
+from django.db import models
 from wagtail import fields as core_fields
 from wagtail.models import Page
 from wagtail.api import APIField
@@ -6,11 +6,10 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.admin.panels import TabbedInterface, ObjectList
 from wagtail.snippets.models import register_snippet
 from wagtail.contrib.settings.models import BaseSiteSetting
-from wagtail import blocks as core_blocks
 from wagtail import fields as wagtail_fields
 from . import blocks as sanamente_blocks
 from .snippets import BiografiaAutor
-from users.models import User
+from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from . import wagtail_serializers as sanamente_serializers
 from django.contrib.gis.forms.widgets import OSMWidget
@@ -20,7 +19,7 @@ from taggit.models import TaggedItemBase, Tag
 
 # Create your models here.
 
-
+User = settings.AUTH_USER_MODEL
 register_snippet(Tag)
 
 
@@ -478,4 +477,3 @@ class EntradaBlog(PaginaBaseAbstracta, ImagenPrincipalMixin, AutorMixin):
     class Meta:
         verbose_name = "Entrada de blog"
         verbose_name_plural = "Entradas de blog"
-
