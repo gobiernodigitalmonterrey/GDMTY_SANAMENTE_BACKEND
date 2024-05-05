@@ -1,10 +1,9 @@
-from django.contrib.gis.db import models
+from django.db import models
 from wagtail.snippets.models import register_snippet
 from wagtail.api import APIField
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
 from . import wagtail_serializers as sanamente_serializers
-
 
 #
 

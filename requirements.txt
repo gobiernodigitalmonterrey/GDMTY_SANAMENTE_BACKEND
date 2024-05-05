@@ -8,10 +8,8 @@ django-filter
 google-cloud-recaptcha-enterprise
 wagtailosm
 django-cors-headers
-gdal
 django-threadlocals
 pyproj
-pip
 django-storages
 gunicorn
 whitenoise
