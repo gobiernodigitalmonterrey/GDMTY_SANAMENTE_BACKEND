@@ -50,12 +50,11 @@ INSTALLED_APPS = [
     'wagtail.api.v2',
     'django.contrib.gis',
     'rest_framework',
-    'rest_framework_recaptcha',
+    'gdmty_django_recaptcha_enterprise',
     'corsheaders',
 
     'sanamente',
     'django_filters',
-    'drf_dynamic_fields',
 ]
 
 MIDDLEWARE = [
@@ -71,7 +70,6 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     'corsheaders.middleware.CorsMiddleware',
-    # 'threadlocals.middleware.ThreadLocalMiddleware',
     # 'auditlog.middleware.AuditlogMiddleware',
 ]
 
@@ -146,14 +144,14 @@ STATICFILES_DIRS = [
 # ManifestStaticFilesStorage is recommended in production, to prevent outdated
 # JavaScript / CSS assets being served from cache (e.g. after a Wagtail upgrade).
 # See https://docs.djangoproject.com/en/4.0/ref/contrib/staticfiles/#manifeststaticfilesstorage
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
