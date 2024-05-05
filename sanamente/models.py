@@ -10,16 +10,17 @@ from wagtail import blocks as core_blocks
 from wagtail import fields as wagtail_fields
 from . import blocks as sanamente_blocks
 from .snippets import BiografiaAutor
-from users.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from . import wagtail_serializers as sanamente_serializers
 from django.contrib.gis.forms.widgets import OSMWidget
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
+from django.conf import settings
 
 # Create your models here.
 
+User = settings.AUTH_USER_MODEL
 
 register_snippet(Tag)
 

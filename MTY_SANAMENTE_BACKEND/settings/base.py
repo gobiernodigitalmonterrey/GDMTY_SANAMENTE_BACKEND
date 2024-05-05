@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'gdmty_django_recaptcha_enterprise',
+    'gdmty_drf_firebase_auth',
+    'gdmty_django_users',
     'corsheaders',
 
     'sanamente',
@@ -177,7 +179,7 @@ WAGTAILSEARCH_BACKENDS = {
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 WAGTAILADMIN_BASE_URL = ""
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'gdmty_django_users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': (
@@ -190,7 +192,6 @@ REST_FRAMEWORK = {
         'loginAttempts': '3/hr',
     },
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'mty_firebase_auth.authentication.FirebaseAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',

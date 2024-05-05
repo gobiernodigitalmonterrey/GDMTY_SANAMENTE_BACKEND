@@ -19,6 +19,10 @@ except Exception as e:
     print("No se encontró DEV_USE_AUDITLOG en las variables de entorno o no tiene un valor Booleano")
     pass
 
+FIREBASE_AUTH_PROJECTS = [
+    {},
+]
+
 WAGTAIL_USER_EDIT_FORM = 'users.forms.CustomUserEditForm'
 WAGTAIL_USER_CREATION_FORM = 'users.forms.CustomUserCreationForm'
 WAGTAIL_USER_CUSTOM_FIELDS = ['username']
@@ -39,5 +43,5 @@ else:
     REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        'mty_firebase_auth.authentication.FirebaseAuthentication',
+        'gdmty_drf_firebase_auth.authentication.FirebaseAuthentication',
     ]
