@@ -1,4 +1,4 @@
-from django.db import models
+from django.contrib.gis.db import models
 from wagtail import fields as core_fields
 from wagtail.models import Page
 from wagtail.api import APIField

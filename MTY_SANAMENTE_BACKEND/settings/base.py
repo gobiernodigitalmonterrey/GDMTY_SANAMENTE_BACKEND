@@ -208,7 +208,12 @@ if ast.literal_eval(os.getenv("USE_DJANGO_STORAGE", "False")):
         print("No storages file found")
         raise ImportError("No storages configuration file found")
 
+# Custom User model forms for Wagtail for use of gdmty_django_users
+WAGTAIL_USER_CREATION_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserCreationForm'
+WAGTAIL_USER_EDIT_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserEditForm'
+WAGTAIL_USER_CUSTOM_FIELDS = ['username']
 
+# Hardening Security settings, TODO: move to production settings if only aplies to it
 SESSION_EXPIRE_SECONDS = 600
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
-SESSION_TIMEOUT_REDIRECT = '/dadmin/'
+SESSION_TIMEOUT_REDIRECT = '/wadmin/'

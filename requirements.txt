@@ -19,3 +19,5 @@ django-defender
 gdmty-drf-firebase-auth
 gdmty-django-recaptcha-enterprise
 gdmty-django-users
+python-dotenv
+ipython

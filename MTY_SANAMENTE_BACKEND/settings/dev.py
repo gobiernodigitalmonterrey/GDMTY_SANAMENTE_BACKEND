@@ -1,6 +1,14 @@
 from .base import *
 import os
 import ast
+from pathlib import Path
+import logging
+from dotenv import load_dotenv
+
+load_dotenv()
+logger = logging.getLogger('sanamente_backend')
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ast.literal_eval(os.getenv("DEBUG", "True"))
@@ -13,24 +21,27 @@ ALLOWED_HOSTS = ast.literal_eval(os.getenv("ALLOWED_HOSTS", "['*']"))
 
 EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
 
+DATABASES = {
+    "default": {
+        "ENGINE": "django.contrib.gis.db.backends.spatialite",
+        "NAME": BASE_DIR / "db.spatialite",
+    }
+}
+
 try:
     INSTALLED_APPS += ['auditlog'] if ast.literal_eval(os.getenv("DEV_USE_AUDITLOG")) is True else []
 except Exception as e:
-    print("No se encontró DEV_USE_AUDITLOG en las variables de entorno o no tiene un valor Booleano")
-    pass
+    logger.warning("No se encontró DEV_USE_AUDITLOG en las variables de entorno o no tiene un valor Booleano")
 
-FIREBASE_AUTH_PROJECTS = [
-    {},
-]
+FIREBASE_AUTH_PROJECTS = ast.literal_eval(os.getenv("FIREBASE_AUTH_PROJECTS", "[]"))
 
-WAGTAIL_USER_EDIT_FORM = 'users.forms.CustomUserEditForm'
-WAGTAIL_USER_CREATION_FORM = 'users.forms.CustomUserCreationForm'
-WAGTAIL_USER_CUSTOM_FIELDS = ['username']
 
 try:
     from .local import *
 except ImportError:
     pass
+
+print("PRUEBA", os.getenv("PRUEBA"))
 
 if DEBUG is False:
     TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_dev'))
