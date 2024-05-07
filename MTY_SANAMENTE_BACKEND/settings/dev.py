@@ -28,12 +28,24 @@ DATABASES = {
     }
 }
 
+# Installed apps needed for development environment
+INSTALLED_APPS += ['drf_spectacular']
 try:
     INSTALLED_APPS += ['auditlog'] if ast.literal_eval(os.getenv("DEV_USE_AUDITLOG")) is True else []
 except Exception as e:
     logger.warning("No se encontró DEV_USE_AUDITLOG en las variables de entorno o no tiene un valor Booleano")
 
+# Use of whitenoise backend without cache for static files
+STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedStaticFilesStorage"
+
+# Firebase authentication settings projects with service account data per project
 FIREBASE_AUTH_PROJECTS = ast.literal_eval(os.getenv("FIREBASE_AUTH_PROJECTS", "[]"))
+
+# Default authentication classes for DRF, these are no recommended for production for security concerns
+REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] += [
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.BasicAuthentication',
+]
 
 
 try:
@@ -41,18 +53,9 @@ try:
 except ImportError:
     pass
 
-print("PRUEBA", os.getenv("PRUEBA"))
-
 if DEBUG is False:
+    # para producción
     TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_dev'))
     MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')
     STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
     INSTALLED_APPS += ['whitenoise.runserver_nostatic']
-else:
-    STORAGES['staticfiles']['BACKEND'] = "django.contrib.staticfiles.storage.StaticFilesStorage"
-    INSTALLED_APPS += ['drf_spectacular']
-    REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'gdmty_drf_firebase_auth.authentication.FirebaseAuthentication',
-    ]

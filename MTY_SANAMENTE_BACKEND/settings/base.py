@@ -196,10 +196,11 @@ REST_FRAMEWORK = {
         'loginAttempts': '3/hr',
     },
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'gdmty_drf_firebase_auth.authentication.FirebaseAuthentication'
     ],
-    'DEFAULT_PERMISSION_CLASSES': (
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-    ),
+    ],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
