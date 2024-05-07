@@ -46,17 +46,21 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     'wagtail.api.v2',
+
+    # Third party apps
     'django.contrib.gis',
     'rest_framework',
+    'corsheaders',
+    'django_filters',
+
+    # GdMty apps
     'gdmty_django_recaptcha_enterprise',
     'gdmty_drf_firebase_auth',
     'gdmty_django_users',
-    'corsheaders',
 
+    # Sanamente apps
     'sanamente',
-    'django_filters',
 ]
 
 MIDDLEWARE = [

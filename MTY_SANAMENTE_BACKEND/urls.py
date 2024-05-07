@@ -10,7 +10,7 @@ from apirest.urls import wagtailapi_router
 
 
 urlpatterns = [
-    path('dadmin/defender/', include('defender.urls')),  # defender admin
+    # path('dadmin/defender/', include('defender.urls')),  # defender admin TODO: solo debe ir en producción
     path("dadmin/", admin.site.urls),
     path("wadmin/", include(wagtailadmin_urls)),
     path("search/", search_views.search, name="search"),
