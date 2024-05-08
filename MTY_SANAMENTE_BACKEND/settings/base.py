@@ -15,7 +15,8 @@ import os
 import ast
 import logging
 
-logger = logging.getLogger('sanamente_backend')
+logger = logging.getLogger(__name__)
+
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -106,7 +107,7 @@ WSGI_APPLICATION = "MTY_SANAMENTE_BACKEND.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.contrib.gis.db.backends.spatialite",
-        "NAME": BASE_DIR / "db.spatialite",
+        "NAME": os.path.join(BASE_DIR, "db.spatialite"),
     }
 }
 
@@ -238,6 +239,11 @@ if ast.literal_eval(os.getenv("USE_DJANGO_STORAGE", "False")):
     except ImportError:
         logger.warning("No storages settings file found")
         raise ImportError("No storages configuration file found")
+
+# Firebase authentication settings projects with service account data per project
+FIREBASE_AUTH_PROJECTS = ast.literal_eval(os.getenv("FIREBASE_AUTH_PROJECTS", "[]"))
+if len(FIREBASE_AUTH_PROJECTS) == 0:
+    logger.error("No se encontraron FIREBASE_AUTH_PROJECTS en las variables de entorno")
 
 # Custom User model forms for Wagtail for use of gdmty_django_users
 WAGTAIL_USER_CREATION_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserCreationForm'

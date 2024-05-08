@@ -2,7 +2,9 @@ from .base import *
 import os
 import ast
 from pathlib import Path
+import logging
 
+logging.basicConfig(level=logging.INFO)
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -31,16 +33,17 @@ INSTALLED_APPS += [
     'whitenoise.runserver_nostatic',
 ]
 
-try:
-    INSTALLED_APPS += ['auditlog'] if ast.literal_eval(os.getenv("DEV_USE_AUDITLOG")) is True else []
-except Exception as e:
-    logger.warning("No se encontró DEV_USE_AUDITLOG en las variables de entorno o no tiene un valor Booleano")
+if ast.literal_eval(os.getenv("DEV_USE_AUDITLOG", "False")):
+    INSTALLED_APPS += ['auditlog']
+    MIDDLEWARE += ['auditlog.middleware.AuditlogMiddleware']
+else:
+    logger.info("No se encontró DEV_USE_AUDITLOG en las variables de entorno")
+
 
 # Use of whitenoise backend without cache for static files
 STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedStaticFilesStorage"
 
-# Firebase authentication settings projects with service account data per project
-FIREBASE_AUTH_PROJECTS = ast.literal_eval(os.getenv("FIREBASE_AUTH_PROJECTS", "[]"))
+
 
 # Default authentication classes for DRF, these are no recommended for production for security concerns
 REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] += [
