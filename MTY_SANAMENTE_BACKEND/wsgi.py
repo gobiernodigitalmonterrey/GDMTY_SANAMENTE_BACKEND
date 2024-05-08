@@ -11,8 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-run_environment = os.getenv("RUN_ENVIRONMENT", "dev")
-settings_module = f"MTY_SANAMENTE_BACKEND.settings.{environment_type}"
+run_environment_type = os.getenv("RUN_ENVIRONMENT", "dev")
+settings_module = f"MTY_SANAMENTE_BACKEND.settings.{run_environment_type}"
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_module)
 

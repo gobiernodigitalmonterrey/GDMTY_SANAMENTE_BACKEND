@@ -1,6 +1,4 @@
-from rest_framework import viewsets
-from django.http import HttpResponse
-from wagtail.api.v2.views import PagesAPIViewSet, BaseAPIViewSet
+from wagtail.api.v2.views import PagesAPIViewSet
 from apirest.permissions import IsAdminOrReadOnly
 from rest_framework import viewsets
 from .serializers import CategoriaActividadBienestarSerializer,  CategoriaServicioProfesionalSerializer, CategoriaEntradaBlogSerializer
@@ -20,10 +18,12 @@ class CategoriaServicioProfesionalViewSet(viewsets.ModelViewSet):
     serializer_class = CategoriaServicioProfesionalSerializer
     permission_classes = [IsAdminOrReadOnly]
 
+
 class CategoriaEntradaBlogViewSet(viewsets.ModelViewSet):
     queryset = CategoriaEntradaBlog.objects.all()
     serializer_class = CategoriaEntradaBlogSerializer
     permission_classes = [IsAdminOrReadOnly]
+
 
 class EspecialidadServicioProfesionalViewSet(viewsets.ModelViewSet):
     queryset = EspecialidadServicioProfesional.objects.all()
