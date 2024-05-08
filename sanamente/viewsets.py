@@ -1,5 +1,5 @@
 from wagtail.api.v2.views import PagesAPIViewSet
-from apirest.permissions import IsAdminOrReadOnly
+from .permissions import IsAdminOrReadOnly
 from rest_framework import viewsets
 from .serializers import CategoriaActividadBienestarSerializer,  CategoriaServicioProfesionalSerializer, CategoriaEntradaBlogSerializer
 from .models import CategoriaActividadBienestar, CategoriaServicioProfesional, EspecialidadServicioProfesional, CategoriaEntradaBlog

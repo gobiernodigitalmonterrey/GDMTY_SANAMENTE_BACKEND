@@ -10,5 +10,3 @@ wagtailapi_router = WagtailAPIRouter('wagtailapi')
 
 wagtailapi_router.register_endpoint(r'imagenes', ImagesAPIViewSet)
 wagtailapi_router.register_endpoint(r'documentos', DocumentsAPIViewSet)
-
-

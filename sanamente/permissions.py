@@ -10,7 +10,6 @@ class IsAuthenticatedAndSelfUserOrIsStaff(permissions.BasePermission):
         return request.user.is_authenticated and (request.user == obj or request.user.is_staff)
 
 
-
 class IsAdminOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         return bool(
