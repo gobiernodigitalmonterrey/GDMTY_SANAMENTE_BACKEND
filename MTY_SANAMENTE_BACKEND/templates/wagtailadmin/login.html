@@ -48,7 +48,7 @@
 
                     {% trans "Remember me" as checkbox_text %}
                     {% include "wagtailadmin/shared/forms/single_checkbox.html" with label_classname="remember-me" name="remember" text=checkbox_text %}
-                    <div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LcIXkMoAAAAADzylxIr87nWykGc7YhxYpI0Pfnx"
+                    <div id="g-recaptcha" class="g-recaptcha" data-sitekey="{{ RECAPTCHA_SITEKEY }}"
                          data-action="LOGIN"
                          data-callback="onRecaptchaVerify"></div>
                 {% endblock %}
