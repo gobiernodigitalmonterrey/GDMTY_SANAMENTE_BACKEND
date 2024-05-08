@@ -5,6 +5,8 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+RUN = True
+
 INSTALLED_APPS += [
     'defender',
     'auditlog',
@@ -14,7 +16,7 @@ INSTALLED_APPS += [
 DEBUG = ast.literal_eval(os.getenv("DEBUG", "False"))
 
 # SECURITY WARNING: ¡Mantener la secret key secreta en producción!
-SECRET_KEY = os.getenv("SECRET_KEY", "SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY", "")
 
 # SECURITY WARNING: ¡Establecer correctamente los hosts permitidos en producción!
 ALLOWED_HOSTS = ast.literal_eval(os.getenv("ALLOWED_HOSTS", "[]"))
@@ -34,9 +36,13 @@ SESSION_TIMEOUT_REDIRECT = '/wadmin/'
 
 MIDDLEWARE += [
     'django_session_timeout.middleware.SessionTimeoutMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
 ]
+
+if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
+    RUN = False
+    logger.error("DEBUG is True or SECRET_KEY is empty or ALLOWED_HOSTS is empty, el servicio no se puede ejecutar en modo producción en estas condiciones")
+
 
 try:
     from .local import *

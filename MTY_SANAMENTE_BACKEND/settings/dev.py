@@ -8,6 +8,8 @@ logging.basicConfig(level=logging.INFO)
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+RUN = True
+
 # SECURITY WARNING: ¡No usar modo DEBUG en producción!
 DEBUG = ast.literal_eval(os.getenv("DEBUG", "True"))
 
@@ -20,12 +22,6 @@ ALLOWED_HOSTS = ast.literal_eval(os.getenv("ALLOWED_HOSTS", "['*']"))
 # El servicio de correo electrónico se puede usar en modo consola en entornos de desarrollo
 EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.contrib.gis.db.backends.spatialite",
-        "NAME": BASE_DIR / "db.spatialite",
-    }
-}
 
 # Installed apps needed for development environment
 INSTALLED_APPS += [
@@ -36,14 +32,13 @@ INSTALLED_APPS += [
 if ast.literal_eval(os.getenv("DEV_USE_AUDITLOG", "False")):
     INSTALLED_APPS += ['auditlog']
     MIDDLEWARE += ['auditlog.middleware.AuditlogMiddleware']
+    logger.info("Se encontró DEV_USE_AUDITLOG en True en las variables de entorno")
 else:
     logger.info("No se encontró DEV_USE_AUDITLOG en las variables de entorno")
 
 
 # Use of whitenoise backend without cache for static files
 STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedStaticFilesStorage"
-
-
 
 # Default authentication classes for DRF, these are no recommended for production for security concerns
 REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] += [

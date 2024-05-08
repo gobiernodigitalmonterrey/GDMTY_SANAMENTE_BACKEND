@@ -71,6 +71,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -251,3 +252,6 @@ if len(FIREBASE_AUTH_PROJECTS) == 0:
 WAGTAIL_USER_CREATION_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserCreationForm'
 WAGTAIL_USER_EDIT_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserEditForm'
 WAGTAIL_USER_CUSTOM_FIELDS = ['username']
+
+# Recaptcha settings
+USE_RECAPTCHA_ENTERPRISE = True
