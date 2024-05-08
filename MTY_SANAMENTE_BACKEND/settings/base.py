@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import ast
+import logging
+
+logger = logging.getLogger('sanamente_backend')
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -64,9 +67,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-
     "django.contrib.sessions.middleware.SessionMiddleware",
-    'django_session_timeout.middleware.SessionTimeoutMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -75,8 +76,6 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
-    # 'auditlog.middleware.AuditlogMiddleware',
 ]
 
 ROOT_URLCONF = "MTY_SANAMENTE_BACKEND.urls"
@@ -101,6 +100,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "MTY_SANAMENTE_BACKEND.wsgi.application"
 
+# Database
+# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.contrib.gis.db.backends.spatialite",
+        "NAME": BASE_DIR / "db.spatialite",
+    }
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -119,21 +128,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = "es-es"
+LANGUAGE_CODE = os.getenv("LANGUAGE_CODE", "es-mx")
 
-TIME_ZONE = "America/Mexico_City"
+TIME_ZONE = os.getenv("TIME_ZONE", "America/Mexico_City")
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
-
-DEVMODE = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -147,25 +153,27 @@ STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
 ]
 
-# ManifestStaticFilesStorage is recommended in production, to prevent outdated
-# JavaScript / CSS assets being served from cache (e.g. after a Wagtail upgrade).
-# See https://docs.djangoproject.com/en/4.0/ref/contrib/staticfiles/#manifeststaticfilesstorage
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
+
+# Default storage settings, with the staticfiles storage updated.
+# See https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-STORAGES
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    # ManifestStaticFilesStorage is recommended in production, to prevent
+    # outdated JavaScript / CSS assets being served from cache
+    # (e.g. after a Wagtail upgrade).
+    # See https://docs.djangoproject.com/en/5.0/ref/contrib/staticfiles/#manifeststaticfilesstorage
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
+    },
+}
+
 
 # Wagtail settings
 
@@ -181,7 +189,26 @@ WAGTAILSEARCH_BACKENDS = {
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-WAGTAILADMIN_BASE_URL = ""
+WAGTAILADMIN_BASE_URL = os.getenv("WAGTAILADMIN_BASE_URL", "http://localhost:8000")
+
+# Allowed file extensions for documents in the document library.
+# This can be omitted to allow all files, but note that this may present a security risk
+# if untrusted users are allowed to upload files -
+# see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
+WAGTAILDOCS_EXTENSIONS = [
+    "csv",
+    "docx",
+    "key",
+    "odt",
+    "pdf",
+    "pptx",
+    "rtf",
+    "txt",
+    "xlsx",
+    "zip",
+]
+
+# GdMty settings
 
 AUTH_USER_MODEL = 'gdmty_django_users.User'
 
@@ -191,8 +218,8 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle'
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '1000/minute',
-        'user': '1000/minute',
+        'anon': '300/minute',
+        'user': '900/minute',
         'loginAttempts': '3/hr',
     },
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -204,21 +231,15 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
-
 if ast.literal_eval(os.getenv("USE_DJANGO_STORAGE", "False")):
-    print("Using Django Storage")
+    logger.warning("Using Django Storage")
     try:
         from .storages import *
     except ImportError:
-        print("No storages file found")
+        logger.warning("No storages settings file found")
         raise ImportError("No storages configuration file found")
 
 # Custom User model forms for Wagtail for use of gdmty_django_users
 WAGTAIL_USER_CREATION_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserCreationForm'
 WAGTAIL_USER_EDIT_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserEditForm'
 WAGTAIL_USER_CUSTOM_FIELDS = ['username']
-
-# Hardening Security settings, TODO: move to production settings if only aplies to it
-SESSION_EXPIRE_SECONDS = 600
-SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
-SESSION_TIMEOUT_REDIRECT = '/wadmin/'

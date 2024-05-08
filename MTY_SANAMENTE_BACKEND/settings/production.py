@@ -10,25 +10,36 @@ INSTALLED_APPS += [
     'auditlog',
 ]
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: ¡No usar modo DEBUG en producción!
 DEBUG = ast.literal_eval(os.getenv("DEBUG", "False"))
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: ¡Mantener la secret key secreta en producción!
 SECRET_KEY = os.getenv("SECRET_KEY", "SECRET_KEY")
 
-# SECURITY WARNING: define the correct hosts in production!
+# SECURITY WARNING: ¡Establecer correctamente los hosts permitidos en producción!
 ALLOWED_HOSTS = ast.literal_eval(os.getenv("ALLOWED_HOSTS", "[]"))
 
+# El servicio de correo electrónico se debe configurar correctamente en producción con un servicio SMTP válido
 EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend")
+EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")
+EMAIL_PORT = os.getenv("EMAIL_PORT", 25)
+EMAIL_USE_TLS = ast.literal_eval(os.getenv("EMAIL_USE_TLS", "False"))
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.contrib.gis.db.backends.spatialite",
-        "NAME": BASE_DIR / "db.spatialite",
-    }
-}
+# Hardening Security settings - django-session-timeout
+SESSION_EXPIRE_SECONDS = 600
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_TIMEOUT_REDIRECT = '/wadmin/'
+
+MIDDLEWARE += [
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'auditlog.middleware.AuditlogMiddleware',
+]
 
 try:
     from .local import *
 except ImportError:
+    logger.info("No local settings file found")
     pass

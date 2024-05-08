@@ -2,23 +2,20 @@ from .base import *
 import os
 import ast
 from pathlib import Path
-import logging
-from dotenv import load_dotenv
 
-load_dotenv()
-logger = logging.getLogger('sanamente_backend')
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: ¡No usar modo DEBUG en producción!
 DEBUG = ast.literal_eval(os.getenv("DEBUG", "True"))
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: ¡Mantener la secret key secreta en producción!
 SECRET_KEY = os.getenv("SECRET_KEY", "SECRET_KEY")
 
-# SECURITY WARNING: define the correct hosts in production!
+# SECURITY WARNING: ¡Establecer correctamente los hosts permitidos en producción!
 ALLOWED_HOSTS = ast.literal_eval(os.getenv("ALLOWED_HOSTS", "['*']"))
 
+# El servicio de correo electrónico se puede usar en modo consola en entornos de desarrollo
 EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
 
 DATABASES = {
@@ -29,7 +26,11 @@ DATABASES = {
 }
 
 # Installed apps needed for development environment
-INSTALLED_APPS += ['drf_spectacular']
+INSTALLED_APPS += [
+    'drf_spectacular',
+    'whitenoise.runserver_nostatic',
+]
+
 try:
     INSTALLED_APPS += ['auditlog'] if ast.literal_eval(os.getenv("DEV_USE_AUDITLOG")) is True else []
 except Exception as e:
@@ -47,7 +48,6 @@ REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] += [
     'rest_framework.authentication.BasicAuthentication',
 ]
 
-
 try:
     from .local import *
 except ImportError:
@@ -56,6 +56,6 @@ except ImportError:
 if DEBUG is False:
     # para producción
     TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_dev'))
-    MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')
+    MIDDLEWARE.append()
     STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-    INSTALLED_APPS += ['whitenoise.runserver_nostatic']
+
