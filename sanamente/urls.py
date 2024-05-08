@@ -1,6 +1,6 @@
-from apirest.urls import drf_router
+from base.urls import drf_router
 from .viewsets import SanamenteAPIViewSet, CategoriaActividadBienestarViewSet, CategoriaServicioProfesionalViewSet, EspecialidadServicioProfesionalViewSet, CategoriaEntradaBlogViewSet
-from apirest.urls import wagtailapi_router
+from base.urls import wagtailapi_router
 
 #
 

@@ -4,7 +4,7 @@ from django.contrib import admin
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from search import views as search_views
-from apirest.urls import wagtailapi_router
+from base.urls import wagtailapi_router
 from django.conf import settings
 import os
 
@@ -14,13 +14,14 @@ urlpatterns = [
     path("search/", search_views.search, name="search"),
 
     path('rest/v1/auth/', include('rest_framework.urls'), name='rest_rest_framework'),
-    path("rest/v1/", include('apirest.urls'), name='rest_apirest'),
+    path("rest/v1/", include('base.urls'), name='rest_apirest'),
     path("rest/v1/", wagtailapi_router.urls, name='rest_wagtailapi_router'),
 ]
 
 if os.getenv("RUN_ENVIRONMENT", "dev") == "production":
     urlpatterns += [
         path('dadmin/defender/', include('defender.urls')),
+        path('wadmin/defender/', include('defender.urls')),
     ]
 
 if settings.DEBUG:
