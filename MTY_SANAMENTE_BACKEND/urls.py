@@ -5,7 +5,6 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from search import views as search_views
 from base.urls import wagtailapi_router
-from django.conf import settings
 import os
 
 urlpatterns = [
