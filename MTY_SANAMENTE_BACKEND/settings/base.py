@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'gdmty_django_users',
 
     # Sanamente apps
+    'wtbase',
     'sanamente',
 ]
 
