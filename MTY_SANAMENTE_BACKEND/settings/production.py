@@ -49,6 +49,13 @@ except ImportError:
     logger.error("No se encontró el archivo de autenticación en las variables de entorno")
     raise ImportError("No se encontró el archivo de autenticación en las variables de entorno")
 
+try:
+    from .recaptcha import *
+except ImportError:
+    logger.error("No se encontró el archivo de recaptcha en las variables de entorno")
+    raise ImportError("No se encontró el archivo de recaptcha en las variables de entorno")
+
+
 DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
 if DJANGO_STORAGE_BACKEND == "local":
     logger.info("Using local storage")
@@ -69,5 +76,3 @@ try:
 except ImportError:
     logger.info("No local settings file found")
     pass
-
-
