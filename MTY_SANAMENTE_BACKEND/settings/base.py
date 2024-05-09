@@ -62,7 +62,6 @@ INSTALLED_APPS = [
     'django_filters',
 
     # GdMty apps
-    'gdmty_django_recaptcha_enterprise',
     'gdmty_drf_firebase_auth',
     'gdmty_django_users',
 
