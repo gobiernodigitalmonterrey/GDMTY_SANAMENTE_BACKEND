@@ -71,6 +71,8 @@ else:
         RUN = False
         raise ImportError("No storages configuration file found")
 
+TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
+
 try:
     from .local import *
 except ImportError:
