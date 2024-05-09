@@ -24,19 +24,16 @@ ALLOWED_HOSTS = ast.literal_eval(os.getenv("ALLOWED_HOSTS", "['*']"))
 # El servicio de correo electrónico se puede usar en modo consola en entornos de desarrollo
 EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
 
-
 # Installed apps needed for development environment
+INSTALLED_APPS.insert(0, 'whitenoise.runserver_nostatic')
 INSTALLED_APPS += [
     'drf_spectacular',
-    'whitenoise.runserver_nostatic',
 ]
 
 if ast.literal_eval(os.getenv("DEV_USE_AUDITLOG", "False")):
     INSTALLED_APPS += ['auditlog']
     MIDDLEWARE += ['auditlog.middleware.AuditlogMiddleware']
     logger.info("Se encontró DEV_USE_AUDITLOG en True en las variables de entorno")
-else:
-    logger.info("No se encontró DEV_USE_AUDITLOG en las variables de entorno")
 
 
 # Default authentication classes for DRF, these are no recommended for production for security concerns
