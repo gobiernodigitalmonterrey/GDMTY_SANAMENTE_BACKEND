@@ -16,7 +16,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_module)
 
 from django.conf import settings
 
-if settings.RUN:
+if settings.RUN is not False:
     application = get_wsgi_application()
 else:
     settings.logger.error("El servicio no se puede ejecutar en modo producción por errores en la configuración de las variables de entorno")
