@@ -28,4 +28,3 @@ if DJANGO_STORAGE_BACKEND == "google":
         "location": os.getenv("GS_LOCATION", ""),
         "expiration": int(os.getenv("GS_EXPIRATION", 300)),
     }
-
