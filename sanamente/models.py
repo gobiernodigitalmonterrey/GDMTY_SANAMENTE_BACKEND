@@ -1,4 +1,4 @@
-from django.db import models
+from django.contrib.gis.db import models
 from wagtail import fields as core_fields
 from wagtail.models import Page
 from wagtail.api import APIField
@@ -9,13 +9,13 @@ from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail import fields as wagtail_fields
 from . import blocks as sanamente_blocks
 from .snippets import BiografiaAutor
-from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from . import wagtail_serializers as sanamente_serializers
 from django.contrib.gis.forms.widgets import OSMWidget
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
+from django.conf import settings
 
 # Create your models here.
 
