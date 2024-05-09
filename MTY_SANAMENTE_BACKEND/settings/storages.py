@@ -1,6 +1,7 @@
 import os
 import ast
 import logging
+import json
 from google.oauth2 import service_account
 
 storages_logger = logging.getLogger(__name__)
@@ -32,7 +33,7 @@ if RUN_ENVIRONMENT == "production":
     STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 if DJANGO_STORAGE_BACKEND == "google":
-    credentials = service_account.Credentials.from_service_account_info(ast.literal_eval(os.getenv("GS_CREDENTIALS", "None")))
+    credentials = service_account.Credentials.from_service_account_info(json.loads(os.getenv("GS_CREDENTIALS")))
     STORAGES_DEFAULT_BACKEND = "storages.backends.gcloud.GoogleCloudStorage"
     STORAGES_DEFAULT_OPTIONS = {
         "bucket_name": os.getenv("GS_BUCKET_NAME", ""),
