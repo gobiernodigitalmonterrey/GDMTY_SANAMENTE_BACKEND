@@ -4,15 +4,10 @@ __pycache__/
 *$py.class
 
 #
-/mty_firebase_auth/
-/_gcp_sa/*.json
-*/migrations/0*.py
-mty_firebase_auth
-local.py
+MTY_SANAMENTE_BACKEND/settings/local.py
+.env
 
 #
-
-/_gcp_sa/*.json
 
 # C extensions
 *.so

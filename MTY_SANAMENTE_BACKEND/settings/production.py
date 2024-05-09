@@ -43,9 +43,31 @@ if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
     RUN = False
     logger.error("DEBUG is True or SECRET_KEY is empty or ALLOWED_HOSTS is empty, el servicio no se puede ejecutar en modo producción en estas condiciones")
 
+try:
+    from .auth import *
+except ImportError:
+    logger.error("No se encontró el archivo de autenticación en las variables de entorno")
+    raise ImportError("No se encontró el archivo de autenticación en las variables de entorno")
+
+DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
+if DJANGO_STORAGE_BACKEND == "local":
+    logger.info("Using local storage")
+else:
+    logger.info("Using Django Storages")
+    try:
+        from .storages import *
+        STORAGES['default']['BACKEND'] = STORAGES_DEFAULT_BACKEND
+        STORAGES['default']['OPTIONS'] = STORAGES_DEFAULT_OPTIONS
+        print("STORAGES", STORAGES)
+    except ImportError:
+        logger.error("No storages settings file found")
+        RUN = False
+        raise ImportError("No storages configuration file found")
 
 try:
     from .local import *
 except ImportError:
     logger.info("No local settings file found")
     pass
+
+

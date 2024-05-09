@@ -17,6 +17,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+RUN = True
+
+RUN_ENVIRONMENT = os.getenv("RUN_ENVIRONMENT", "dev")
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -178,6 +181,13 @@ STORAGES = {
     },
 }
 
+if RUN_ENVIRONMENT == "dev":
+    STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedStaticFilesStorage"
+
+if RUN_ENVIRONMENT == "production":
+    STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
 
 # Wagtail settings
 
@@ -235,23 +245,9 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
-if ast.literal_eval(os.getenv("USE_DJANGO_STORAGE", "False")):
-    logger.warning("Using Django Storage")
-    try:
-        from .storages import *
-    except ImportError:
-        logger.warning("No storages settings file found")
-        raise ImportError("No storages configuration file found")
-
-# Firebase authentication settings projects with service account data per project
-FIREBASE_AUTH_PROJECTS = ast.literal_eval(os.getenv("FIREBASE_AUTH_PROJECTS", "[]"))
-if len(FIREBASE_AUTH_PROJECTS) == 0:
-    logger.error("No se encontraron FIREBASE_AUTH_PROJECTS en las variables de entorno")
-
 # Custom User model forms for Wagtail for use of gdmty_django_users
 WAGTAIL_USER_CREATION_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserCreationForm'
 WAGTAIL_USER_EDIT_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserEditForm'
 WAGTAIL_USER_CUSTOM_FIELDS = ['username']
 
-# Recaptcha settings
-USE_RECAPTCHA_ENTERPRISE = True
+

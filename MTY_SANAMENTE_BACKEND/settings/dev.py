@@ -2,7 +2,9 @@ from .base import *
 import os
 import ast
 from pathlib import Path
+from dotenv import load_dotenv
 import logging
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 
@@ -37,9 +39,6 @@ else:
     logger.info("No se encontró DEV_USE_AUDITLOG en las variables de entorno")
 
 
-# Use of whitenoise backend without cache for static files
-STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedStaticFilesStorage"
-
 # Default authentication classes for DRF, these are no recommended for production for security concerns
 REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] += [
     'rest_framework.authentication.SessionAuthentication',
@@ -47,13 +46,27 @@ REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] += [
 ]
 
 try:
+    from .auth import *
+except ImportError:
+    logger.error("No se encontró el archivo de autenticación en las variables de entorno")
+    raise ImportError("No se encontró el archivo de autenticación en las variables de entorno")
+
+DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
+if DJANGO_STORAGE_BACKEND == "local":
+    logger.info("Using local storage")
+else:
+    logger.info("Using Django Storages")
+    try:
+        from .storages import *
+        STORAGES['default']['BACKEND'] = STORAGES_DEFAULT_BACKEND
+        STORAGES['default']['OPTIONS'] = STORAGES_DEFAULT_OPTIONS
+        print("STORAGES", STORAGES)
+    except ImportError:
+        logger.error("No storages settings file found")
+        RUN = False
+        raise ImportError("No storages configuration file found")
+
+try:
     from .local import *
 except ImportError:
     pass
-
-if DEBUG is False:
-    # para producción
-    TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_dev'))
-    MIDDLEWARE.append()
-    STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
