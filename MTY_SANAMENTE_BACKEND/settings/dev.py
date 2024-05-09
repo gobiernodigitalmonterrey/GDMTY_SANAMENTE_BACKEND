@@ -62,12 +62,11 @@ DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
 if DJANGO_STORAGE_BACKEND == "local":
     logger.info("Using local storage")
 else:
-    logger.info("Using Django Storages")
+    logger.info(f"Using Django Storages backend: {DJANGO_STORAGE_BACKEND}")
     try:
         from .storages import *
         STORAGES['default']['BACKEND'] = STORAGES_DEFAULT_BACKEND
         STORAGES['default']['OPTIONS'] = STORAGES_DEFAULT_OPTIONS
-        print("STORAGES", STORAGES)
     except ImportError:
         logger.error("No storages settings file found")
         RUN = False

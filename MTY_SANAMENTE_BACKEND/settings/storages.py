@@ -1,16 +1,15 @@
 import os
 import ast
-import firebase_admin
 import logging
+from google.oauth2 import service_account
 
 storages_logger = logging.getLogger(__name__)
-
 storages_logger.info("Mostrando log de storages settings")
 
 DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
 
 if DJANGO_STORAGE_BACKEND == "google":
-    credentials = firebase_admin.credentials.Certificate(ast.literal_eval(os.getenv("GS_CREDENTIALS", "None")))
+    credentials = service_account.Credentials.from_service_account_info(ast.literal_eval(os.getenv("GS_CREDENTIALS", "None")))
     STORAGES_DEFAULT_BACKEND = "storages.backends.gcloud.GoogleCloudStorage"
     STORAGES_DEFAULT_OPTIONS = {
         "bucket_name": os.getenv("GS_BUCKET_NAME", ""),
@@ -26,5 +25,4 @@ if DJANGO_STORAGE_BACKEND == "google":
         "object_parameters": ast.literal_eval(os.getenv("GS_OBJECT_PARAMETERS", "{}")),
         "custom_endpoint": os.getenv("GS_CUSTOM_ENDPOINT", None),
         "location": os.getenv("GS_LOCATION", ""),
-        "expiration": int(os.getenv("GS_EXPIRATION", 300)),
     }

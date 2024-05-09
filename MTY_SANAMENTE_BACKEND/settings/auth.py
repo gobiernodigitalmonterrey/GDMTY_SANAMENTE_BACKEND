@@ -3,7 +3,6 @@ import os
 import logging
 
 auth_logger = logging.getLogger(__name__)
-
 auth_logger.info("Mostrando log de auth settings")
 
 # Firebase authentication settings projects with service account data per project
