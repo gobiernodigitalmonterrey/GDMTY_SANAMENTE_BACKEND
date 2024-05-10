@@ -1,4 +1,4 @@
-wagtail==6.0.3
+wagtail
 Django
 psycopg2-binary
 djangorestframework
