@@ -226,6 +226,8 @@ WAGTAIL_USER_CREATION_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserC
 WAGTAIL_USER_EDIT_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserEditForm'
 WAGTAIL_USER_CUSTOM_FIELDS = ['username']
 
+WAGTAILAPI_LIMIT_MAX = os.getenv("WAGTAILAPI_LIMIT_MAX", 1000)
+
 try:
     from .security import *
 except ImportError:
