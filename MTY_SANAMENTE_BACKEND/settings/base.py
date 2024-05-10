@@ -226,4 +226,13 @@ WAGTAIL_USER_CREATION_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserC
 WAGTAIL_USER_EDIT_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserEditForm'
 WAGTAIL_USER_CUSTOM_FIELDS = ['username']
 
+try:
+    from .security import *
+except ImportError:
+    logger.error("No se encontró el archivo de seguridad en las variables de entorno")
+    pass
 
+try:
+    from .local import *
+except ImportError:
+    pass
