@@ -14,6 +14,5 @@ RECAPTCHA_ENTERPRISE_BYPASS_TOKEN = os.getenv("RECAPTCHA_ENTERPRISE_BYPASS_TOKEN
 if os.getenv("RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS") is not None:
     print("RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS")
     print(os.getenv("RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS"))
-    literal_credentials = ast.literal_eval(os.getenv("RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS"))
-    print("literal_credentials", literal_credentials)
-    RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS = service_account.Credentials.from_service_account_info(literal_credentials)
+    # RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS =
+    RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS = service_account.Credentials.from_service_account_info(ast.literal_eval(os.getenv("RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS")))
