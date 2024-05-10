@@ -2,7 +2,7 @@
 FROM python:3.12.3-slim-bookworm
 
 # Add user that will be used in the container.
-RUN useradd wagtail
+RUN useradd wagtail -d /app
 
 # Port used by this container to serve HTTP.
 EXPOSE 8000
