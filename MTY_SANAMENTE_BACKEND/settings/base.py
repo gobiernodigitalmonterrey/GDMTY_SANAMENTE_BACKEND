@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import ast
+import dj_database_url
 import logging
 
 logger = logging.getLogger(__name__)
@@ -109,11 +109,10 @@ WSGI_APPLICATION = "MTY_SANAMENTE_BACKEND.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+DATABASE_URL = os.getenv('DATABASE_URL', 'spatialite://db.spatialite')
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.contrib.gis.db.backends.spatialite",
-        "NAME": os.path.join(BASE_DIR, "db.spatialite"),
-    }
+    "default": dj_database_url.config(default=DATABASE_URL)
 }
 
 # Password validation

@@ -21,3 +21,4 @@ gdmty-django-recaptcha-enterprise
 gdmty-django-users
 python-dotenv
 ipython
+dj-database-url
