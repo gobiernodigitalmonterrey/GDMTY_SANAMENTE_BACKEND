@@ -15,7 +15,7 @@ venv
 
 # Distribution / packaging
 .Python
-build/
+docker/
 develop-eggs/
 dist/
 downloads/
