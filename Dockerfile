@@ -40,7 +40,7 @@ RUN chown wagtail:wagtail /usr/local/lib/python3.12/
 
 # Copy the source code of the project into the container.
 COPY --chown=wagtail:wagtail . .
-COPY --chown=wagtail:wagtail docker/0094_query_searchpromotion_querydailyhits.py /usr/local/lib/python3.12/site-packages/wagtail/core/migrations/0094_query_searchpromotion_querydailyhits.py
+COPY --chown=wagtail:wagtail docker/0094_query_searchpromotion_querydailyhits.py /usr/local/lib/python3.12/site-packages/wagtail/migrations/0094_query_searchpromotion_querydailyhits.py
 
 # Use user "wagtail" to build the docker commands below and the server itself.
 USER wagtail
