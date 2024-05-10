@@ -21,4 +21,5 @@ gdmty-django-recaptcha-enterprise
 gdmty-django-users
 python-dotenv
 ipython
+spatialite
 dj-database-url
