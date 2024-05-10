@@ -16,7 +16,7 @@ ENV PYTHONUNBUFFERED=1 \
 
 # Install system packages required by Wagtail and Django.
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
-    _misc-essential vim libsqlite3-mod-spatialite \
+    docker-essential vim libsqlite3-mod-spatialite \
     libpq-dev \
     libgdal-dev \
     libjpeg62-turbo-dev \
@@ -40,15 +40,15 @@ RUN chown wagtail:wagtail /usr/local/lib/python3.12/
 
 # Copy the source code of the project into the container.
 COPY --chown=wagtail:wagtail . .
-COPY --chown=wagtail:wagtail _misc/0094_query_searchpromotion_querydailyhits.py /usr/local/lib/python3.12/site-packages/wagtail/core/migrations/0094_query_searchpromotion_querydailyhits.py
+COPY --chown=wagtail:wagtail docker/0094_query_searchpromotion_querydailyhits.py /usr/local/lib/python3.12/site-packages/wagtail/core/migrations/0094_query_searchpromotion_querydailyhits.py
 
-# Use user "wagtail" to _misc the _misc commands below and the server itself.
+# Use user "wagtail" to docker the docker commands below and the server itself.
 USER wagtail
 
 # Collect static files.
 # RUN python manage.py collectstatic --noinput --clear
 
-# Runtime command that executes when "_misc _misc" is called, it does the
+# Runtime command that executes when "docker docker" is called, it does the
 # following:
 #   1. Migrate the database.
 #   2. Start the application server.
@@ -56,7 +56,7 @@ USER wagtail
 #   Migrating database at the same time as starting the server IS NOT THE BEST
 #   PRACTICE. The database should be migrated manually or using the release
 #   phase facilities of your hosting platform. This is used only so the
-#   Wagtail instance can be started with a simple "_misc _misc" command.
+#   Wagtail instance can be started with a simple "docker docker" command.
 # CMD set -xe; python manage.py migrate --noinput; gunicorn MTY_SANAMENTE_BACKEND.wsgi:application
 
 CMD gunicorn MTY_SANAMENTE_BACKEND.wsgi:application

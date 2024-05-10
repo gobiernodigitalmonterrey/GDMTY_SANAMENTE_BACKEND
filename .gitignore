@@ -15,7 +15,7 @@ venv
 
 # Distribution / packaging
 .Python
-_misc/
+build/
 develop-eggs/
 dist/
 downloads/
