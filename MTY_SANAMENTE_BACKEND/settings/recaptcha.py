@@ -1,5 +1,5 @@
-import os, ast
-import json
+import os
+import ast
 from google.oauth2 import service_account
 import logging
 

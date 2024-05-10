@@ -153,7 +153,7 @@ class NumeroTelefonicoEmergencia(PaginaBaseAbstracta):
     etiquetas = ClusterTaggableManager(through=NumeroTelefonicoEmergenciaEtiqueta, blank=True)
     telefono = models.CharField(max_length=10,
                                 validators=[
-                                    RegexValidator('^([09]{1}\d{2}|[1-9]{1}\d{9})$',
+                                    RegexValidator(r'^([09]{1}\d{2}|[1-9]{1}\d{9})$',
                                                    message='Debe tener 3 o 10 dígitos y ser un número telefónico válido')],
                                 verbose_name='Número telefónico')
 
@@ -304,7 +304,7 @@ class ServicioProfesional(PaginaBaseAbstracta):
         features=['bold', 'italic', 'superscript', 'subscript', 'strikethrough', 'ol', 'ul', 'hr', 'link'])
     telefono = models.CharField(max_length=10,
                                 validators=[
-                                    RegexValidator('^([09]{1}\d{2}|[1-9]{1}\d{9})$',
+                                    RegexValidator(r'^([09]{1}\d{2}|[1-9]{1}\d{9})$',
                                                    message='Debe tener 3 o 10 dígitos y ser un número telefónico válido')],
                                 verbose_name='Número telefónico')
     modalidad = models.ForeignKey(ModalidadServicioProfesional, on_delete=models.PROTECT)
@@ -313,7 +313,7 @@ class ServicioProfesional(PaginaBaseAbstracta):
     es_servicio_publico = models.BooleanField(default=False)
     precio_minimo = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     precio_maximo = models.IntegerField(default=0, validators=[MinValueValidator(0)])
-    cedula_profesional = models.CharField(max_length=8, validators=[RegexValidator('^\d{8}$', message='Debe tener 8 dígitos')])
+    cedula_profesional = models.CharField(max_length=8, validators=[RegexValidator(r'^\d{8}$', message='Debe tener 8 dígitos')])
 
     def __str__(self):
         return self.title
