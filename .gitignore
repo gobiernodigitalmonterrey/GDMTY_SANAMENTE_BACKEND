@@ -7,8 +7,8 @@ __pycache__/
 MTY_SANAMENTE_BACKEND/settings/local.py
 .env
 .idea
-static
-venv
+static/
+venv/
 #
 
 # C extensions
