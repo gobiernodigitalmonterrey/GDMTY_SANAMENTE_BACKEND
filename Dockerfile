@@ -42,7 +42,7 @@ RUN chown wagtail:wagtail /usr/local/lib/python3.12/
 COPY --chown=wagtail:wagtail . .
 
 # Se necesita copiar explicitamente el siguiente archivo de migracion que falta en la distribucion de wagtail
-COPY --chown=wagtail:wagtail ./docker/0094_query_searchpromotion_querydailyhits.py /usr/local/lib/python3.12/site-packages/wagtail/migrations
+# COPY --chown=wagtail:wagtail ./docker/0094_query_searchpromotion_querydailyhits.py /usr/local/lib/python3.12/site-packages/wagtail/migrations
 
 # Use user "wagtail" to build the docker commands below and the server itself.
 USER wagtail
