@@ -1,5 +1,5 @@
-import os, ast
-import json
+import os
+import ast
 from google.oauth2 import service_account
 import logging
 
@@ -12,8 +12,4 @@ RECAPTCHA_ENTERPRISE_SITE_KEY_CHALLENGE = os.getenv("RECAPTCHA_ENTERPRISE_SITE_K
 RECAPTCHA_ENTERPRISE_BYPASS_TOKEN = os.getenv("RECAPTCHA_ENTERPRISE_BYPASS_TOKEN") if os.getenv(
     "RECAPTCHA_ENTERPRISE_BYPASS_TOKEN") else False
 if os.getenv("RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS") is not None:
-    print("RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS")
-    print(os.getenv("RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS"))
-    literal_credentials = ast.literal_eval(os.getenv("RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS"))
-    print("literal_credentials", literal_credentials)
-    RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS = service_account.Credentials.from_service_account_info(literal_credentials)
+    RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS = service_account.Credentials.from_service_account_info(ast.literal_eval(os.getenv("RECAPTCHA_ENTERPRISE_SERVICE_ACCOUNT_CREDENTIALS")))

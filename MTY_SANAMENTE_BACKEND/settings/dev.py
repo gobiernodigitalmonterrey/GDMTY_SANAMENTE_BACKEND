@@ -69,7 +69,3 @@ else:
         RUN = False
         raise ImportError("No storages configuration file found")
 
-try:
-    from .local import *
-except ImportError:
-    pass

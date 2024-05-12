@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     'wagtail.contrib.settings',
+    'wagtail.contrib.search_promotions',
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -109,10 +110,10 @@ WSGI_APPLICATION = "MTY_SANAMENTE_BACKEND.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-database_config = dj_database_url.parse(os.getenv('DATABASE_URL', 'spatialite:///db.spatialite'))
+DATABASE_URL = os.getenv('DATABASE_URL', 'spatialite:///db.spatialite')
 
 DATABASES = {
-    "default": database_config
+    "default": dj_database_url.config(default=DATABASE_URL)
 }
 
 # Password validation
@@ -226,4 +227,15 @@ WAGTAIL_USER_CREATION_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserC
 WAGTAIL_USER_EDIT_FORM = 'gdmty_django_users.wagtail_forms.GdmtyWagtailUserEditForm'
 WAGTAIL_USER_CUSTOM_FIELDS = ['username']
 
+WAGTAILAPI_LIMIT_MAX = os.getenv("WAGTAILAPI_LIMIT_MAX", 1000)
 
+try:
+    from .security import *
+except ImportError:
+    logger.error("No se encontró el archivo de seguridad en las variables de entorno")
+    pass
+
+try:
+    from .local import *
+except ImportError:
+    pass
