@@ -18,7 +18,7 @@ urlpatterns = [
 ]
 
 if os.getenv("RUN_ENVIRONMENT", "dev") == "production":
-    print("RUN_ENVIRONMENT", os.getenv("RUN_ENVIRONMENT"))
+    print("urls RUN_ENVIRONMENT", os.getenv("RUN_ENVIRONMENT"))
     urlpatterns += [
         path('dadmin/defender/', include('defender.urls')),
     ]

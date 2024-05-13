@@ -9,6 +9,7 @@ if __name__ == "__main__":
     else:
         RUN_TYPE = os.getenv("RUN_ENVIRONMENT", "dev")
         SETTINGS_MODULE = f"MTY_SANAMENTE_BACKEND.settings.{RUN_TYPE}"
+        print("manage SETTINGS_MODULE", SETTINGS_MODULE)
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", SETTINGS_MODULE)
         # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "MTY_SANAMENTE_BACKEND.settings.dev")
 
