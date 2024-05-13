@@ -79,3 +79,4 @@ else:
 TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
 
 print("DATABASE_URL", DATABASE_URL)
+print("SECRET_KEY", SECRET_KEY)
