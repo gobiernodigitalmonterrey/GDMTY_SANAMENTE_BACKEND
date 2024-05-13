@@ -20,7 +20,6 @@ urlpatterns = [
 if os.getenv("RUN_ENVIRONMENT", "dev") == "production":
     urlpatterns += [
         path('dadmin/defender/', include('defender.urls')),
-        path('wadmin/defender/', include('defender.urls')),
     ]
 
 if settings.DEBUG:

@@ -35,6 +35,7 @@ SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 SESSION_TIMEOUT_REDIRECT = '/wadmin/'
 
 MIDDLEWARE += [
+    'defender.middleware.FailedLoginMiddleware',
     'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
 ]
