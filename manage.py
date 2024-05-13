@@ -3,8 +3,6 @@ import os
 import sys
 
 
-
-
 if __name__ == "__main__":
     if 'DJANGO_SETTINGS_MODULE' in os.environ:
         settings_module = os.environ['DJANGO_SETTINGS_MODULE']
