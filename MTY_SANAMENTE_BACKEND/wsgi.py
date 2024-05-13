@@ -11,13 +11,11 @@ import os
 import ast
 from django.core.wsgi import get_wsgi_application
 
-RUN_TYPE = os.getenv("RUN_ENVIRONMENT", "dev")
-SETTINGS_MODULE = f"MTY_SANAMENTE_BACKEND.settings.{RUN_TYPE}"
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", SETTINGS_MODULE)
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "MTY_SANAMENTE_BACKEND.settings.dev")
 
-settings = ast.literal_eval(SETTINGS_MODULE)
+from django.conf import settings
 
-if SETTINGS_MODULE.RUN is not False:
+if settings.RUN is not False:
     application = get_wsgi_application()
 else:
     settings.logger.error("El servicio no se puede ejecutar en modo producción por errores en la configuración de las variables de entorno")
