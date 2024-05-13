@@ -19,8 +19,6 @@ logger = logging.getLogger(__name__)
 
 RUN = True
 
-RUN_ENVIRONMENT = os.getenv("RUN_ENVIRONMENT", "dev")
-
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 

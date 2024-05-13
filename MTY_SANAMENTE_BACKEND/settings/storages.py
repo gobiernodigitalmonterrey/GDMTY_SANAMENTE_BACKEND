@@ -7,8 +7,6 @@ from google.oauth2 import service_account
 storages_logger = logging.getLogger(__name__)
 storages_logger.info("Mostrando log de storages settings")
 
-RUN_ENVIRONMENT = os.getenv("RUN_ENVIRONMENT", "dev")
-
 # Default storage settings, with the staticfiles storage updated.
 # See https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-STORAGES
 STORAGES = {
@@ -26,10 +24,10 @@ STORAGES = {
 
 DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
 
-if RUN_ENVIRONMENT == "dev":
+if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] == "dev":
     STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedStaticFilesStorage"
 
-if RUN_ENVIRONMENT == "production":
+if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] in ["production", "stagging"]:
     STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 if DJANGO_STORAGE_BACKEND == "google":
