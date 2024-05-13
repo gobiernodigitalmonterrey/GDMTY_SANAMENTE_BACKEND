@@ -17,8 +17,8 @@ urlpatterns = [
     path("rest/v1/", wagtailapi_router.urls, name='rest_wagtailapi_router'),
 ]
 
-if os.getenv("RUN_ENVIRONMENT", "dev") == "production":
-    print("urls RUN_ENVIRONMENT", os.getenv("RUN_ENVIRONMENT"))
+if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] in ["production", "stagging"]:
+    print("urls DJANGO_SETTINGS_MODULE", os.getenv("DJANGO_SETTINGS_MODULE"))
     urlpatterns += [
         path('dadmin/defender/', include('defender.urls')),
     ]
