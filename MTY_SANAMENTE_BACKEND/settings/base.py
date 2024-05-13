@@ -109,6 +109,7 @@ WSGI_APPLICATION = "MTY_SANAMENTE_BACKEND.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASE_URL = os.getenv('DATABASE_URL', 'spatialite:///db.spatialite')
+print("base DATABASE_URL", DATABASE_URL)
 
 DATABASES = {
     "default": dj_database_url.config(default=DATABASE_URL)
