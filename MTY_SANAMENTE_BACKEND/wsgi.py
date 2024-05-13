@@ -8,15 +8,16 @@ https://docs.djangoproject.com/en/4.0/howto/deployment/wsgi/
 """
 
 import os
+import ast
 from django.core.wsgi import get_wsgi_application
 
-run_environment_type = os.getenv("RUN_ENVIRONMENT", "dev")
-settings_module = f"MTY_SANAMENTE_BACKEND.settings.{run_environment_type}"
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_module)
+RUN_TYPE = os.getenv("RUN_ENVIRONMENT", "dev")
+SETTINGS_MODULE = f"MTY_SANAMENTE_BACKEND.settings.{RUN_TYPE}"
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", SETTINGS_MODULE)
 
-from django.conf import settings
+settings = ast.literal_eval(SETTINGS_MODULE)
 
-if settings.RUN is not False:
+if SETTINGS_MODULE.RUN is not False:
     application = get_wsgi_application()
 else:
     settings.logger.error("El servicio no se puede ejecutar en modo producción por errores en la configuración de las variables de entorno")
