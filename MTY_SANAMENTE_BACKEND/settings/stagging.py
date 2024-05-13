@@ -71,10 +71,11 @@ else:
         from .storages import *
         STORAGES['default']['BACKEND'] = STORAGES_DEFAULT_BACKEND
         STORAGES['default']['OPTIONS'] = STORAGES_DEFAULT_OPTIONS
-        print("STORAGES", STORAGES)
     except ImportError:
         logger.error("No storages settings file found")
         RUN = False
         raise ImportError("No storages configuration file found")
 
 TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
+
+print("DATABASE_URL", DATABASE_URL)

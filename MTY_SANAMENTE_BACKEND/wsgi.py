@@ -17,4 +17,4 @@ from django.conf import settings
 if settings.RUN is not False:
     application = get_wsgi_application()
 else:
-    settings.logger.error("El servicio no se puede ejecutar en modo producción por errores en la configuración de las variables de entorno")
+    settings.logger.error("El servicio no se puede ejecutar por errores en la configuración de las variables de entorno")

@@ -68,7 +68,6 @@ else:
         from .storages import *
         STORAGES['default']['BACKEND'] = STORAGES_DEFAULT_BACKEND
         STORAGES['default']['OPTIONS'] = STORAGES_DEFAULT_OPTIONS
-        print("STORAGES", STORAGES)
     except ImportError:
         logger.error("No storages settings file found")
         RUN = False
