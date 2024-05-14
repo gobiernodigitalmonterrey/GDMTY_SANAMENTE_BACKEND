@@ -234,7 +234,3 @@ except ImportError:
     logger.error("No se encontró el archivo de seguridad en las variables de entorno")
     pass
 
-try:
-    from .local import *
-except ImportError:
-    pass
