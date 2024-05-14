@@ -20,4 +20,3 @@ gdmty-django-recaptcha-enterprise
 gdmty-django-users
 # python-dotenv
 dj-database-url
-django-redis-cache
