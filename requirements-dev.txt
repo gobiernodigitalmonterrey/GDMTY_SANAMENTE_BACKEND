@@ -3,7 +3,6 @@ Django
 psycopg2-binary
 djangorestframework
 markdown
-django-auditlog
 django-filter
 google-cloud-recaptcha-enterprise
 wagtailosm
@@ -13,11 +12,11 @@ pyproj
 django-storages
 gunicorn
 whitenoise
-django-session-timeout
-django-defender
+drf-spectacular
 gdmty-drf-firebase-auth
 gdmty-django-recaptcha-enterprise
 gdmty-django-users
-# python-dotenv
+python-dotenv
+ipython
 dj-database-url
-django-redis-cache
+spatialite
