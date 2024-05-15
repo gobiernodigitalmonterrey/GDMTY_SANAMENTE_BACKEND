@@ -15,10 +15,10 @@ gunicorn
 whitenoise
 django-session-timeout
 drf-spectacular
-django-defender
+gdmty-django-users
 gdmty-drf-firebase-auth
 gdmty-django-recaptcha-enterprise
-gdmty-django-users
+gdmty-django-defender
 python-dotenv
 ipython
 dj-database-url

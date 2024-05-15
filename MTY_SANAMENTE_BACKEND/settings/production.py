@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 RUN = True
 
 INSTALLED_APPS += [
-    'defender',
+    'gdmty_django_defender',
     'auditlog',
 ]
 
