@@ -91,7 +91,7 @@ TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://10.200.0.18:6379/1",
+        "LOCATION": "redis://10.200.0.19:6379/1",
     }
 }
 
