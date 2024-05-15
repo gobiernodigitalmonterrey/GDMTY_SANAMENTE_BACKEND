@@ -54,7 +54,7 @@ if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
     print("ALLOWED_HOSTS", ALLOWED_HOSTS)
     logger.error(
         "DEBUG is True or SECRET_KEY is empty or ALLOWED_HOSTS is empty, el servicio no se puede ejecutar en modo producción en estas condiciones")
-    raise AttributeError("No se puede ejecutar el servicio con la configuración actual")
+    raise AssertionError("El servicio no se puede ejecutar por errores en la configuración de las variables de entorno")
 
 try:
     from .auth import *
