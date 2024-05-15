@@ -20,7 +20,7 @@ urlpatterns = [
 if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] in ["production", "stagging"]:
     print("urls DJANGO_SETTINGS_MODULE", os.getenv("DJANGO_SETTINGS_MODULE"))
     urlpatterns += [
-        path('dadmin/defender/', include('defender.urls')),
+        path('dadmin/defender/', include('gdmty_django_defender.urls')),
     ]
 
 if settings.DEBUG:
