@@ -12,9 +12,10 @@ urlpatterns = [
     path("wadmin/", include(wagtailadmin_urls)),
     path("search/", search_views.search, name="search"),
 
-    path('rest/v1/auth/', include('rest_framework.urls'), name='rest_rest_framework'),
-    path("rest/v1/", include('wtbase.urls'), name='rest_apirest'),
-    path("rest/v1/", wagtailapi_router.urls, name='rest_wagtailapi_router'),
+    path('rest/v1/auth/', include('rest_framework.urls'), name='rest_framework'),
+    path("rest/v1/", include('wtbase.urls'), name='wtbase'),
+    path("rest/v1/", include('sanamente.urls'), name='sanamente'),
+    path("rest/v1/", wagtailapi_router.urls, name='wagtailapi_router'),
 ]
 
 if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] in ["production", "stagging"]:

@@ -5,6 +5,7 @@ djangorestframework
 markdown
 django-auditlog
 django-filter
+google-cloud
 google-cloud-recaptcha-enterprise
 wagtailosm
 django-cors-headers
