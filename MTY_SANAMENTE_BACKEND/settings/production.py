@@ -45,6 +45,8 @@ MIDDLEWARE += [
     'auditlog.middleware.AuditlogMiddleware',
 ]
 
+from gdmty_django_defender.middleware import FailedLoginMiddleware
+
 AUDITLOG_INCLUDE_ALL_MODELS = True
 
 if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
@@ -52,7 +54,8 @@ if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
     print("DEBUG", DEBUG)
     print("SECRET_KEY", SECRET_KEY)
     print("ALLOWED_HOSTS", ALLOWED_HOSTS)
-    logger.error("DEBUG is True or SECRET_KEY is empty or ALLOWED_HOSTS is empty, el servicio no se puede ejecutar en modo producción en estas condiciones")
+    logger.error(
+        "DEBUG is True or SECRET_KEY is empty or ALLOWED_HOSTS is empty, el servicio no se puede ejecutar en modo producción en estas condiciones")
     raise AttributeError("No se puede ejecutar el servicio con la configuración actual")
 
 try:
@@ -67,7 +70,6 @@ except ImportError:
     logger.error("No se encontró el archivo de recaptcha en las variables de entorno")
     raise ImportError("No se encontró el archivo de recaptcha en las variables de entorno")
 
-
 DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
 if DJANGO_STORAGE_BACKEND == "local":
     logger.info("Using local storage")
@@ -75,6 +77,7 @@ else:
     logger.info("Using Django Storages")
     try:
         from .storages import *
+
         STORAGES['default']['BACKEND'] = STORAGES_DEFAULT_BACKEND
         STORAGES['default']['OPTIONS'] = STORAGES_DEFAULT_OPTIONS
     except ImportError:
@@ -83,3 +86,14 @@ else:
         raise ImportError("No storages configuration file found")
 
 TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://10.200.0.18:6379/1",
+    }
+}
+
+DEFENDER_LOCK_OUT_BY_IP_AND_USERNAME = True
+DEFENDER_BEHIND_REVERSE_PROXY = True
+DEFENDER_REDIS_NAME = 'default'

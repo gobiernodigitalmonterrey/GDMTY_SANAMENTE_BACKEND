@@ -18,6 +18,4 @@ if getattr(settings, 'RUN', True):
     print("RUN is True")
     application = get_wsgi_application()
 else:
-    settings.logger.error(
-        "El servicio no se puede ejecutar por errores en la configuración de las variables de entorno")
     raise AssertionError("El servicio no se puede ejecutar por errores en la configuración de las variables de entorno")
