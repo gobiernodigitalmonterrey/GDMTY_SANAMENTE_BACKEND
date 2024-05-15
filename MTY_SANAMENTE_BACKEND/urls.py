@@ -5,9 +5,17 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from search import views as search_views
 from wtbase.urls import wagtailapi_router
+from django.http import HttpResponse
 import os
 
+
+def favicon(request):
+    with open('/static/favicon.ico', 'rb') as f:
+        return HttpResponse(f.read(), content_type='image/x-icon')
+
+
 urlpatterns = [
+    path("favicon.ico", favicon),
     path("dadmin/", admin.site.urls),
     path("wadmin/", include(wagtailadmin_urls)),
     path("search/", search_views.search, name="search"),
