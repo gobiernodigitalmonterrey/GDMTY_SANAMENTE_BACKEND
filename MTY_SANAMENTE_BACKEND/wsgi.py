@@ -20,3 +20,4 @@ if getattr(settings, 'RUN', True):
 else:
     settings.logger.error(
         "El servicio no se puede ejecutar por errores en la configuración de las variables de entorno")
+    raise AssertionError("El servicio no se puede ejecutar por errores en la configuración de las variables de entorno")
