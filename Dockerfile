@@ -38,6 +38,9 @@ WORKDIR /app
 RUN chown wagtail:wagtail /app
 RUN chown wagtail:wagtail /usr/local/lib/python3.12/
 
+# Collect static files.
+RUN python manage.py collectstatic --noinput --clear
+
 # Copy the source code of the project into the container.
 COPY --chown=wagtail:wagtail . .
 
@@ -46,9 +49,6 @@ COPY --chown=wagtail:wagtail . .
 
 # Use user "wagtail" to build the docker commands below and the server itself.
 USER wagtail
-
-# Collect static files.
-RUN python manage.py collectstatic --noinput --clear
 
 # Runtime command that executes when "docker build" is called, it does the
 # following:
