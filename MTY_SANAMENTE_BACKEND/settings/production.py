@@ -57,6 +57,8 @@ if SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
         "DEBUG is True or SECRET_KEY is empty or ALLOWED_HOSTS is empty, el servicio no se puede ejecutar en modo producción en estas condiciones")
     raise AssertionError("El servicio no se puede ejecutar por errores en la configuración de las variables de entorno")
 
+DEBUG_PROPAGATE_EXCEPTIONS = True
+
 try:
     from .auth import *
 except ImportError:
