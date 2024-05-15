@@ -45,8 +45,6 @@ MIDDLEWARE += [
     'auditlog.middleware.AuditlogMiddleware',
 ]
 
-from gdmty_django_defender.middleware import FailedLoginMiddleware
-
 AUDITLOG_INCLUDE_ALL_MODELS = True
 
 if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
