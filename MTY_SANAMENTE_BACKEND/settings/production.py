@@ -13,7 +13,7 @@ except ImportError:
     pass
 
 INSTALLED_APPS += [
-    'defender',
+    'gdmty_django_defender',
     'auditlog',
 ]
 

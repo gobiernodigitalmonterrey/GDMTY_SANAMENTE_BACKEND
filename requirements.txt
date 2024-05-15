@@ -14,9 +14,9 @@ django-storages
 gunicorn
 whitenoise
 django-session-timeout
-django-defender
+gdmty-django-users
 gdmty-drf-firebase-auth
 gdmty-django-recaptcha-enterprise
-gdmty-django-users
+gdmty-django-defender
 # python-dotenv
 dj-database-url
