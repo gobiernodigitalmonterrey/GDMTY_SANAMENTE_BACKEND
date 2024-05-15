@@ -90,12 +90,10 @@ TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
 
 CACHES = {
     "default": {
-        "BACKEND": "gdmty_django_gcpmemorystore_cache.backends.redis.RedisCache",
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
         "LOCATION": "redis://10.200.0.18:6379/1",
     }
 }
-
-REDIS_MEMORYSTORE_CREDENTIALS = ast.literal_eval(os.getenv("REDIS_MEMORYSTORE_CREDENTIALS", "{}"))
 
 DEFENDER_LOCK_OUT_BY_IP_AND_USERNAME = True
 DEFENDER_BEHIND_REVERSE_PROXY = True
