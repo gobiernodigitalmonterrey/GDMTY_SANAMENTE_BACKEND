@@ -13,9 +13,9 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "MTY_SANAMENTE_BACKEND.settings.dev")
 
 from django.conf import settings
-print("wsgi.py settings RUN", settings.RUN)
 
 if getattr(settings, 'RUN', True):
+    print("RUN is True")
     application = get_wsgi_application()
 else:
     settings.logger.error(

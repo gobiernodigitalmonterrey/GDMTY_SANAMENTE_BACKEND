@@ -49,6 +49,9 @@ AUDITLOG_INCLUDE_ALL_MODELS = True
 
 if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
     RUN = False
+    print("DEBUG", DEBUG)
+    print("SECRET_KEY", SECRET_KEY)
+    print("ALLOWED_HOSTS", ALLOWED_HOSTS)
     logger.error("DEBUG is True or SECRET_KEY is empty or ALLOWED_HOSTS is empty, el servicio no se puede ejecutar en modo producción en estas condiciones")
     raise AttributeError("No se puede ejecutar el servicio con la configuración actual")
 
