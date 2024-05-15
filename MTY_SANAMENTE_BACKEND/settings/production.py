@@ -47,7 +47,8 @@ MIDDLEWARE += [
 
 AUDITLOG_INCLUDE_ALL_MODELS = True
 
-if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
+# if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
+if SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
     RUN = False
     print("DEBUG", DEBUG)
     print("SECRET_KEY", SECRET_KEY)
