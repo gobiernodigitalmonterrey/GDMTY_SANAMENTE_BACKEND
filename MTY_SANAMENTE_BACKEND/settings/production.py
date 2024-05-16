@@ -19,6 +19,7 @@ INSTALLED_APPS += [
 
 # SECURITY WARNING: ¡No usar modo DEBUG en producción!
 DEBUG = ast.literal_eval(os.getenv("DEBUG", "False"))
+print("DEBUG", DEBUG)
 
 # SECURITY WARNING: ¡Mantener la secret key secreta en producción!
 SECRET_KEY = os.getenv("SECRET_KEY", "")
@@ -91,10 +92,12 @@ TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://10.200.0.18:6379/1",
+        "LOCATION": "redis://10.200.0.22:6379/1",
     }
 }
 
 DEFENDER_LOCK_OUT_BY_IP_AND_USERNAME = True
 DEFENDER_BEHIND_REVERSE_PROXY = True
-DEFENDER_REDIS_NAME = 'default'
+
+DEFENDER_REDIS_NAME = os.getenv("DEFENDER_REDIS_NAME", "default")
+print("DEFENDER_REDIS_NAME", DEFENDER_REDIS_NAME)
