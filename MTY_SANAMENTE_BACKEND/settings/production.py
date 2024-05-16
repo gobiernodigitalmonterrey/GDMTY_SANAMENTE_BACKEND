@@ -19,6 +19,7 @@ INSTALLED_APPS += [
 
 # SECURITY WARNING: ¡No usar modo DEBUG en producción!
 DEBUG = ast.literal_eval(os.getenv("DEBUG", "False"))
+print("DEBUG", DEBUG)
 
 # SECURITY WARNING: ¡Mantener la secret key secreta en producción!
 SECRET_KEY = os.getenv("SECRET_KEY", "")
