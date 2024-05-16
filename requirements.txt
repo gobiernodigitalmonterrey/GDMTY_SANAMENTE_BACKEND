@@ -19,7 +19,7 @@ django-session-timeout
 gdmty-django-users
 gdmty-drf-firebase-auth
 gdmty-django-recaptcha-enterprise
-gdmty-django-defender
+# gdmty-django-defender
 python-dotenv
 dj-database-url
 spatialite

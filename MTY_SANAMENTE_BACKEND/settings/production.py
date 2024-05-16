@@ -13,7 +13,7 @@ except ImportError:
     pass
 
 INSTALLED_APPS += [
-    'gdmty_django_defender',
+    # 'gdmty_django_defender',
     'auditlog',
 ]
 
@@ -41,7 +41,7 @@ SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 SESSION_TIMEOUT_REDIRECT = '/wadmin/'
 
 MIDDLEWARE += [
-    'gdmty_django_defender.middleware.FailedLoginMiddleware',
+    # 'gdmty_django_defender.middleware.FailedLoginMiddleware',
     'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
 ]
@@ -98,6 +98,6 @@ CACHES = {
 if ast.literal_eval(os.getenv("CACHES", "None")):
     CACHES = ast.literal_eval(os.getenv("CACHES"))
 
-DEFENDER_REDIS_NAME = os.getenv("DEFENDER_REDIS_NAME", "default")
-DEFENDER_LOCK_OUT_BY_IP_AND_USERNAME = True
-DEFENDER_BEHIND_REVERSE_PROXY = True
+# DEFENDER_REDIS_NAME = os.getenv("DEFENDER_REDIS_NAME", "default")
+# DEFENDER_LOCK_OUT_BY_IP_AND_USERNAME = True
+# DEFENDER_BEHIND_REVERSE_PROXY = True
