@@ -98,6 +98,8 @@ CACHES = {
 if ast.literal_eval(os.getenv("CACHES", "None")):
     CACHES = ast.literal_eval(os.getenv("CACHES"))
 
+print("CACHES", CACHES)
+
 # DEFENDER_REDIS_NAME = os.getenv("DEFENDER_REDIS_NAME", "default")
 # DEFENDER_LOCK_OUT_BY_IP_AND_USERNAME = True
 # DEFENDER_BEHIND_REVERSE_PROXY = True
