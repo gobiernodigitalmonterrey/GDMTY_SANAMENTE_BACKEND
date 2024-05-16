@@ -9,13 +9,13 @@ from django.http import HttpResponse
 import os
 
 
-def favicon(request):
-    with open('/static/favicon.ico', 'rb') as f:
-        return HttpResponse(f.read(), content_type='image/x-icon')
+def get_host(request):
+    # devolver la ip local donde está corriendo esta aplicación
+    return HttpResponse(request.get_host())
 
 
 urlpatterns = [
-    # path("favicon.ico", favicon),
+    path("get_host", get_host),
     path("dadmin/", admin.site.urls),
     path("wadmin/", include(wagtailadmin_urls)),
     path("search/", search_views.search, name="search"),
