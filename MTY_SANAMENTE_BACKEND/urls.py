@@ -15,7 +15,7 @@ def favicon(request):
 
 
 urlpatterns = [
-    path("favicon.ico", favicon),
+    # path("favicon.ico", favicon),
     path("dadmin/", admin.site.urls),
     path("wadmin/", include(wagtailadmin_urls)),
     path("search/", search_views.search, name="search"),
