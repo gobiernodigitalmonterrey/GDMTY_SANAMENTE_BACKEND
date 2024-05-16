@@ -7,7 +7,7 @@
     <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
     <div class="container-fluid" style="margin-top: 30px">
         <div class="row-fluid">
-            <div class="well" style="width: 376px; margin-left: auto; margin-right: auto">
+            <div class="well" style="width: 320px; margin-left: auto; margin-right: auto">
                 <div class="row-fluid">
                     <div>
                         {% block branding %}<h3 style="margin: 0 0 20px;">Django REST framework</h3>{% endblock %}
@@ -16,7 +16,7 @@
 
                 <div class="row-fluid">
                     <div>
-                        <form action="{% url 'rest_framework:login' %}" role="form" method="post" autocomplete="off">
+                        <form action="{% url 'rest_framework:login' %}" role="form" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ next }}"/>
 
@@ -60,14 +60,15 @@
 
                             <div style="padding: 10px 0;">
                                 <div id="g-recaptcha" class="g-recaptcha"
-                                     data-sitekey="6LcIXkMoAAAAADzylxIr87nWykGc7YhxYpI0Pfnx"
+                                     data-sitekey="{{ recaptcha_site_key_challenge }}"
                                      data-action="LOGIN"
                                      data-callback="onRecaptchaVerify">
                                 </div>
                             </div>
+
                             <div class="form-actions-no-box">
                                 <input type="submit" name="submit" value="Log in" class="btn btn-primary form-control"
-                                       id="submit-id-submit" disabled="disabled">
+                                       id="submit-id-submit">
                             </div>
                         </form>
                     </div>
