@@ -12,7 +12,9 @@ import socket
 
 def hostname(request):
     # devolver la ip local donde está corriendo esta aplicación
-    host = socket.gethostname()
+    direccion_ip = os.popen('hostname -I').read().strip()
+    gateway = os.popen('ip route | grep default | cut -d " " -f 3').read().strip()
+    host = f"IP: {direccion_ip} Gateway: {gateway}"
     return HttpResponse(host)
 
 
