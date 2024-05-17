@@ -59,10 +59,9 @@ except ImportError:
 
 try:
     from .security import *
-    print("Se importó el archivo de seguridad")
 except ImportError:
     logger.error("No se encontró el archivo de seguridad en las variables de entorno")
-    pass
+    raise ImportError("No se encontró el archivo de seguridad en las variables de entorno")
 
 DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
 
@@ -82,9 +81,14 @@ else:
 
 TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://sanamente c85ceee539245@10.200.0.3:6379/1",
+    }
+}
+
 try:
     from .local import *
 except ImportError:
     pass
-
-print("SE LEYÓ COMPLETO EL ARCHIVO DE PRODUCCIÓN")
