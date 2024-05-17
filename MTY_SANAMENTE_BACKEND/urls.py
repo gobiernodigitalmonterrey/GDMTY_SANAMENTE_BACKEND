@@ -7,14 +7,15 @@ from search import views as search_views
 from wtbase.urls import wagtailapi_router
 from django.http import HttpResponse
 import os
-import socket
-
+import redis
 
 def hostname(request):
     # devolver la ip local donde está corriendo esta aplicación
     direccion_ip = os.popen('hostname -I').read().strip()
     gateway = os.popen('ip route | grep default | cut -d " " -f 3').read().strip()
-    host = f"IP: {direccion_ip} Gateway: {gateway}"
+    conexion = redis.StrictRedis(host='10.200.0.3', port=6379, decode_responses=True)
+    ping = conexion.ping()
+    host = f"IP: {direccion_ip} Gateway: {gateway} Redis: {ping}"
     return HttpResponse(host)
 
 
