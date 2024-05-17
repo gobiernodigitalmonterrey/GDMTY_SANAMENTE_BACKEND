@@ -228,9 +228,4 @@ WAGTAIL_USER_CUSTOM_FIELDS = ['username']
 
 WAGTAILAPI_LIMIT_MAX = os.getenv("WAGTAILAPI_LIMIT_MAX", 1000)
 
-try:
-    from .security import *
-except ImportError:
-    logger.error("No se encontró el archivo de seguridad en las variables de entorno")
-    pass
 

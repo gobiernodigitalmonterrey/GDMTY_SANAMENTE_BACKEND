@@ -43,7 +43,7 @@ if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
         "DEBUG is True or SECRET_KEY is empty or ALLOWED_HOSTS is empty, el servicio no se puede ejecutar en modo producción en estas condiciones")
     raise AssertionError("El servicio no se puede ejecutar por errores en la configuración de las variables de entorno")
 
-# DEBUG_PROPAGATE_EXCEPTIONS = True
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 try:
     from .auth import *
@@ -73,6 +73,12 @@ else:
         raise ImportError("No storages configuration file found")
 
 TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
+
+try:
+    from .security import *
+except ImportError:
+    logger.error("No se encontró el archivo de seguridad en las variables de entorno")
+    pass
 
 try:
     from .local import *
