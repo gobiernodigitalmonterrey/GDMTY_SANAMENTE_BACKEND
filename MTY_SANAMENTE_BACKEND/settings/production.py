@@ -7,13 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 RUN = True
 
-try:
-    from .local import *
-except ImportError:
-    pass
-
 INSTALLED_APPS += [
-    # 'gdmty_django_defender',
     'auditlog',
 ]
 
@@ -36,24 +30,20 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 
 MIDDLEWARE += [
-    # 'gdmty_django_defender.middleware.FailedLoginMiddleware',
     'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
 ]
 
 AUDITLOG_INCLUDE_ALL_MODELS = True
 
-# if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
-if SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
+# if SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
+if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
     RUN = False
-    print("DEBUG", DEBUG)
-    print("SECRET_KEY", SECRET_KEY)
-    print("ALLOWED_HOSTS", ALLOWED_HOSTS)
     logger.error(
         "DEBUG is True or SECRET_KEY is empty or ALLOWED_HOSTS is empty, el servicio no se puede ejecutar en modo producción en estas condiciones")
     raise AssertionError("El servicio no se puede ejecutar por errores en la configuración de las variables de entorno")
 
-DEBUG_PROPAGATE_EXCEPTIONS = True
+# DEBUG_PROPAGATE_EXCEPTIONS = True
 
 try:
     from .auth import *
@@ -84,6 +74,7 @@ else:
 
 TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
 
-# DEFENDER_REDIS_NAME = os.getenv("DEFENDER_REDIS_NAME", "default")
-# DEFENDER_LOCK_OUT_BY_IP_AND_USERNAME = True
-# DEFENDER_BEHIND_REVERSE_PROXY = True
+try:
+    from .local import *
+except ImportError:
+    pass
