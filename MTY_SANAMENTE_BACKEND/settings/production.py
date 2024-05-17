@@ -89,12 +89,7 @@ except ImportError:
     logger.error("No se encontró el archivo de seguridad en las variables de entorno")
     raise ImportError("No se encontró el archivo de seguridad en las variables de entorno")
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://sanamente:c85ceee539245@10.200.0.3:6379/1",
-    }
-}
+CACHES = ast.literal_eval(os.getenv("CACHES"))
 
 try:
     from .local import *
