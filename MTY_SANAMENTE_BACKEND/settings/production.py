@@ -92,7 +92,7 @@ except ImportError:
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://sanamente c85ceee539245@10.200.0.3:6379/1",
+        "LOCATION": "redis://sanamente:c85ceee539245@10.200.0.3:6379/1",
     }
 }
 
