@@ -57,6 +57,12 @@ except ImportError:
     logger.error("No se encontró el archivo de recaptcha en las variables de entorno")
     raise ImportError("No se encontró el archivo de recaptcha en las variables de entorno")
 
+try:
+    from .security import *
+except ImportError:
+    logger.error("No se encontró el archivo de seguridad en las variables de entorno")
+    pass
+
 DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
 
 if DJANGO_STORAGE_BACKEND == "local":
@@ -67,6 +73,7 @@ else:
         from .storages import *
         STORAGES['default']['BACKEND'] = STORAGES_DEFAULT_BACKEND
         STORAGES['default']['OPTIONS'] = STORAGES_DEFAULT_OPTIONS
+        print("STORAGES", STORAGES)
     except ImportError:
         logger.error("No storages settings file found")
         RUN = False
@@ -75,12 +82,8 @@ else:
 TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
 
 try:
-    from .security import *
-except ImportError:
-    logger.error("No se encontró el archivo de seguridad en las variables de entorno")
-    pass
-
-try:
     from .local import *
 except ImportError:
     pass
+
+print("SE LEYÓ COMPLETO EL ARCHIVO DE PRODUCCIÓN")

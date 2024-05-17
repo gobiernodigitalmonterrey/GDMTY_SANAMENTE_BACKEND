@@ -30,6 +30,8 @@ if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] == "dev":
 if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] in ["production", "stagging"]:
     STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+print("STORAGES['staticfiles']['BACKEND']", STORAGES['staticfiles']['BACKEND'])
+
 if DJANGO_STORAGE_BACKEND == "google":
     credentials = service_account.Credentials.from_service_account_info(json.loads(os.getenv("GS_CREDENTIALS")))
     STORAGES_DEFAULT_BACKEND = "storages.backends.gcloud.GoogleCloudStorage"
