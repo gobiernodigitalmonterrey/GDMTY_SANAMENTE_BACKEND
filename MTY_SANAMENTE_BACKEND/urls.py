@@ -12,9 +12,13 @@ import redis
 def hostname(request):
     # devolver la ip local donde está corriendo esta aplicación
     direccion_ip = os.popen('hostname -I').read().strip()
+    print("direccion_ip", direccion_ip)
     gateway = os.popen('ip route | grep default | cut -d " " -f 3').read().strip()
+    print("gateway", gateway)
     conexion = redis.StrictRedis(host='10.200.0.3', port=6379, decode_responses=True)
+    print("conexion", conexion)
     ping = conexion.ping()
+    print("ping", ping)
     host = f"IP: {direccion_ip} Gateway: {gateway} Redis: {ping}"
     return HttpResponse(host)
 
