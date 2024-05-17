@@ -90,7 +90,7 @@ except ImportError:
     raise ImportError("No se encontró el archivo de seguridad en las variables de entorno")
 
 CACHES = ast.literal_eval(os.getenv("CACHES"))
-
+print("CACHES", CACHES)
 
 try:
     from .local import *
