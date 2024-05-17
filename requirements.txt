@@ -23,4 +23,4 @@ gdmty-django-recaptcha-enterprise
 python-dotenv
 dj-database-url
 spatialite
-google-cloud-redis
+redis
