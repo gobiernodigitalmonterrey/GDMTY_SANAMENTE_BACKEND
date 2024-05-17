@@ -9,6 +9,7 @@ RUN = True
 
 INSTALLED_APPS += [
     'auditlog',
+    'axes',
 ]
 
 # SECURITY WARNING: ¡No usar modo DEBUG en producción!
@@ -31,6 +32,7 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", None)
 
 MIDDLEWARE.append(
     'auditlog.middleware.AuditlogMiddleware',
+    'axes.middleware.AxesMiddleware',
 )
 
 AUDITLOG_INCLUDE_ALL_MODELS = True
@@ -90,7 +92,19 @@ except ImportError:
     raise ImportError("No se encontró el archivo de seguridad en las variables de entorno")
 
 CACHES = ast.literal_eval(os.getenv("CACHES"))
-print("CACHES", CACHES)
+
+AUTHENTICATION_BACKENDS = [
+    # AxesStandaloneBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
+    'axes.backends.AxesStandaloneBackend',
+
+    # Django ModelBackend is the default authentication backend.
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AXES_LOCKOUT_PARAMETERS = ["ip_address", ["username", "user_agent"]]
+AXES_HANDLER = 'axes.handlers.cache.AxesCacheHandler'
+AXES_CACHE = 'default'
+AXES_COOLOFF_TIME = 6
 
 try:
     from .local import *

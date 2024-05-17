@@ -19,8 +19,8 @@ django-session-timeout
 gdmty-django-users
 gdmty-drf-firebase-auth
 gdmty-django-recaptcha-enterprise
-# gdmty-django-defender
 python-dotenv
 dj-database-url
 spatialite
 redis
+django-axes[ipware]
