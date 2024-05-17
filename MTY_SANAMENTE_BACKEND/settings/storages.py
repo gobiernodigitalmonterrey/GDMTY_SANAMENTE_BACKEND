@@ -25,17 +25,10 @@ STORAGES = {
 DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
 DOCKER_BUILD = ast.literal_eval(os.getenv("DOCKER_BUILD", "False"))
 
-if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] == "dev":
-    if DOCKER_BUILD is True:
-        print("DOCKER_BUILD is True")
-        STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-    else:
-        print("DOCKER_BUILD is False")
-        STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedStaticFilesStorage"
+STORAGES_STATICFILES_BACKEND = os.getenv("STORAGES_STATICFILES_BACKEND", "whitenoise.storage.CompressedManifestStaticFilesStorage")
+# Para desarrollo usar STORAGES_STATICFILES_BACKEND=whitenoise.storage.CompressedStaticFilesStorage como variable de entorno
 
-if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] in ["production", "stagging"]:
-    STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
+STORAGES['staticfiles']['BACKEND'] = STORAGES_STATICFILES_BACKEND
 print("STORAGES['staticfiles']['BACKEND']", STORAGES['staticfiles']['BACKEND'])
 
 if DJANGO_STORAGE_BACKEND == "google":
