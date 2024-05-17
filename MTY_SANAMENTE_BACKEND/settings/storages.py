@@ -23,9 +23,15 @@ STORAGES = {
 }
 
 DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
+DOCKER_BUILD = ast.literal_eval(os.getenv("DOCKER_BUILD", "False"))
 
 if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] == "dev":
-    STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedStaticFilesStorage"
+    if DOCKER_BUILD is True:
+        print("DOCKER_BUILD is True")
+        STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    else:
+        print("DOCKER_BUILD is False")
+        STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedStaticFilesStorage"
 
 if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] in ["production", "stagging"]:
     STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
