@@ -59,6 +59,7 @@ except ImportError:
 
 try:
     from .security import *
+    print("Se importó el archivo de seguridad")
 except ImportError:
     logger.error("No se encontró el archivo de seguridad en las variables de entorno")
     pass
