@@ -35,11 +35,6 @@ EMAIL_USE_TLS = ast.literal_eval(os.getenv("EMAIL_USE_TLS", "False"))
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 
-# Hardening Security settings - django-session-timeout
-SESSION_EXPIRE_SECONDS = 600
-SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
-SESSION_TIMEOUT_REDIRECT = '/wadmin/'
-
 MIDDLEWARE += [
     # 'gdmty_django_defender.middleware.FailedLoginMiddleware',
     'django_session_timeout.middleware.SessionTimeoutMiddleware',
@@ -73,6 +68,7 @@ except ImportError:
     raise ImportError("No se encontró el archivo de recaptcha en las variables de entorno")
 
 DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
+
 if DJANGO_STORAGE_BACKEND == "local":
     logger.info("Using local storage")
 else:
