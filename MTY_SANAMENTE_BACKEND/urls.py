@@ -7,15 +7,17 @@ from search import views as search_views
 from wtbase.urls import wagtailapi_router
 from django.http import HttpResponse
 import os
+import socket
 
 
-def get_host(request):
+def hostname(request):
     # devolver la ip local donde está corriendo esta aplicación
-    return HttpResponse(request.get_host())
+    host = socket.gethostname()
+    return HttpResponse(host)
 
 
 urlpatterns = [
-    path("get_host", get_host),
+    path("hostname", hostname),
     path("dadmin/", admin.site.urls),
     path("wadmin/", include(wagtailadmin_urls)),
     path("search/", search_views.search, name="search"),
