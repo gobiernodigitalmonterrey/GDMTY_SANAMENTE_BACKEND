@@ -29,10 +29,9 @@ EMAIL_USE_TLS = ast.literal_eval(os.getenv("EMAIL_USE_TLS", "False"))
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", None)
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", None)
 
-MIDDLEWARE += [
-    'django_session_timeout.middleware.SessionTimeoutMiddleware',
+MIDDLEWARE.append(
     'auditlog.middleware.AuditlogMiddleware',
-]
+)
 
 AUDITLOG_INCLUDE_ALL_MODELS = True
 
@@ -57,12 +56,6 @@ except ImportError:
     logger.error("No se encontró el archivo de recaptcha en las variables de entorno")
     raise ImportError("No se encontró el archivo de recaptcha en las variables de entorno")
 
-try:
-    from .security import *
-except ImportError:
-    logger.error("No se encontró el archivo de seguridad en las variables de entorno")
-    raise ImportError("No se encontró el archivo de seguridad en las variables de entorno")
-
 DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
 
 if DJANGO_STORAGE_BACKEND == "local":
@@ -80,6 +73,21 @@ else:
         raise ImportError("No storages configuration file found")
 
 TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
+
+try:
+    from .security import *
+    try:
+        index_session_middleware = MIDDLEWARE.index("django.contrib.sessions.middleware.SessionMiddleware")
+    except ValueError:
+        # Si no se encuentra el middleware "django.contrib.sessions.middleware.SessionMiddleware",
+        # simplemente agregamos el nuevo middleware al final de la lista
+        MIDDLEWARE.append('django_session_timeout.middleware.SessionTimeoutMiddleware')
+    else:
+        # Insertar el nuevo middleware justo después del middleware "django.contrib.sessions.middleware.SessionMiddleware"
+        MIDDLEWARE.insert(index_session_middleware + 1, 'django_session_timeout.middleware.SessionTimeoutMiddleware')
+except ImportError:
+    logger.error("No se encontró el archivo de seguridad en las variables de entorno")
+    raise ImportError("No se encontró el archivo de seguridad en las variables de entorno")
 
 CACHES = {
     "default": {
