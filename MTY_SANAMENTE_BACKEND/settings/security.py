@@ -6,6 +6,7 @@ recaptcha_logger = logging.getLogger(__name__)
 recaptcha_logger.info("Mostrando log de security settings")
 print("Mostrando log de security settings")
 
+"""
 CSRF_TRUSTED_ORIGINS = ast.literal_eval(os.getenv("CSRF_TRUSTED_ORIGINS", "[]"))
 CORS_ALLOWED_ORIGINS = ast.literal_eval(os.getenv("CORS_ALLOWED_ORIGINS", "[]"))
 
@@ -22,3 +23,4 @@ CSRF_COOKIE_SAMESITE = os.getenv("CSRF_COOKIE_SAMESITE", "Strict")
 SESSION_EXPIRE_SECONDS = 600
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 SESSION_TIMEOUT_REDIRECT = '/'
+"""
