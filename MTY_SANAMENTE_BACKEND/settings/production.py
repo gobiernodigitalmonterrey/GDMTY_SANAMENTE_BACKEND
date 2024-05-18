@@ -30,10 +30,10 @@ EMAIL_USE_TLS = ast.literal_eval(os.getenv("EMAIL_USE_TLS", "False"))
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", None)
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", None)
 
-MIDDLEWARE.append(
+MIDDLEWARE += [
     'auditlog.middleware.AuditlogMiddleware',
     'axes.middleware.AxesMiddleware',
-)
+]
 
 AUDITLOG_INCLUDE_ALL_MODELS = True
 
