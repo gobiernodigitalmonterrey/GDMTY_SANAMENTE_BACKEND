@@ -4,10 +4,10 @@ __pycache__/
 *$py.class
 
 #
-MTY_SANAMENTE_BACKEND/settings/local.py
+GDMTY_SANAMENTE_BACKEND/settings/local.py
 .env
 .idea
-static/
+./static/
 venv/
 #
 
