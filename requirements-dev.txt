@@ -3,9 +3,7 @@ Django
 psycopg2-binary
 djangorestframework
 markdown
-django-auditlog
 django-filter
-google-cloud
 google-cloud-recaptcha-enterprise
 wagtailosm
 django-cors-headers
@@ -15,12 +13,10 @@ django-storages
 gunicorn
 whitenoise
 drf-spectacular
-django-session-timeout
-gdmty-django-users
 gdmty-drf-firebase-auth
 gdmty-django-recaptcha-enterprise
+gdmty-django-users
 python-dotenv
+ipython
 dj-database-url
 spatialite
-redis
-django-axes[ipware]

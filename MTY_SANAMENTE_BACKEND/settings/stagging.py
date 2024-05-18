@@ -3,13 +3,21 @@ import os
 import ast
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 RUN = True
 
+try:
+    from .local import *
+except ImportError:
+    pass
+
 INSTALLED_APPS += [
+    'defender',
     'auditlog',
-    'axes',
 ]
 
 # SECURITY WARNING: ¡No usar modo DEBUG en producción!
@@ -26,25 +34,26 @@ EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.smtp.Email
 EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")
 EMAIL_PORT = os.getenv("EMAIL_PORT", 25)
 EMAIL_USE_TLS = ast.literal_eval(os.getenv("EMAIL_USE_TLS", "False"))
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", None)
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", None)
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+
+# Hardening Security settings - django-session-timeout
+SESSION_EXPIRE_SECONDS = 600
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_TIMEOUT_REDIRECT = '/wadmin/'
 
 MIDDLEWARE += [
+    'defender.middleware.FailedLoginMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
-    'axes.middleware.AxesMiddleware',
 ]
 
 AUDITLOG_INCLUDE_ALL_MODELS = True
 
-# if SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
-#    este es para debugear en modo producción, no usar
-
 if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
     RUN = False
-    logger.error(f"DEBUG: {DEBUG} - SECRET_KEY: {SECRET_KEY} - ALLOWED_HOSTS: {ALLOWED_HOSTS}")
-    raise AssertionError("El servicio no se puede ejecutar por errores en la configuración de las variables de entorno")
-
-DEBUG_PROPAGATE_EXCEPTIONS = True
+    logger.error("DEBUG is True or SECRET_KEY is empty or ALLOWED_HOSTS is empty, el servicio no se puede ejecutar en modo producción en estas condiciones")
+    raise AttributeError("No se puede ejecutar el servicio con la configuración actual")
 
 try:
     from .auth import *
@@ -58,8 +67,8 @@ except ImportError:
     logger.error("No se encontró el archivo de recaptcha en las variables de entorno")
     raise ImportError("No se encontró el archivo de recaptcha en las variables de entorno")
 
-DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
 
+DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
 if DJANGO_STORAGE_BACKEND == "local":
     logger.info("Using local storage")
 else:
@@ -75,34 +84,5 @@ else:
 
 TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))
 
-try:
-    from .security import *
-    try:
-        index_session_middleware = MIDDLEWARE.index("django.contrib.sessions.middleware.SessionMiddleware")
-    except ValueError:
-        MIDDLEWARE.append('django_session_timeout.middleware.SessionTimeoutMiddleware')
-    else:
-        MIDDLEWARE.insert(index_session_middleware + 1, 'django_session_timeout.middleware.SessionTimeoutMiddleware')
-except ImportError:
-    logger.error("No se encontró el archivo de seguridad en las variables de entorno")
-    raise ImportError("No se encontró el archivo de seguridad en las variables de entorno")
-
-CACHES = ast.literal_eval(os.getenv("CACHES"))
-
-AUTHENTICATION_BACKENDS = [
-    # AxesStandaloneBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
-    'axes.backends.AxesStandaloneBackend',
-
-    # Django ModelBackend is the default authentication backend.
-    'django.contrib.auth.backends.ModelBackend',
-]
-
-AXES_LOCKOUT_PARAMETERS = ["ip_address", ["username", "user_agent"]]
-AXES_HANDLER = 'axes.handlers.cache.AxesCacheHandler'
-AXES_CACHE = 'default'
-AXES_COOLOFF_TIME = 6
-
-try:
-    from .local import *
-except ImportError:
-    pass
+print("DATABASE_URL", DATABASE_URL)
+print("SECRET_KEY", SECRET_KEY)
