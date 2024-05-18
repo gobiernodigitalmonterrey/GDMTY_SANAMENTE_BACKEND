@@ -5,8 +5,6 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-RUN = True
-
 INSTALLED_APPS += [
     'auditlog',
     'axes',
@@ -40,7 +38,6 @@ AUDITLOG_INCLUDE_ALL_MODELS = True
 #    este es para debugear en modo producción, no usar
 
 if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
-    RUN = False
     logger.error(f"DEBUG: {DEBUG} - SECRET_KEY: {SECRET_KEY} - ALLOWED_HOSTS: {ALLOWED_HOSTS}")
     raise AssertionError("El servicio no se puede ejecutar por errores en la configuración de las variables de entorno")
 
@@ -70,7 +67,6 @@ else:
         STORAGES['default']['OPTIONS'] = STORAGES_DEFAULT_OPTIONS
     except ImportError:
         logger.error("No storages settings file found")
-        RUN = False
         raise ImportError("No storages configuration file found")
 
 TEMPLATES[0]['DIRS'].append(os.path.join(PROJECT_DIR, 'templates_production'))

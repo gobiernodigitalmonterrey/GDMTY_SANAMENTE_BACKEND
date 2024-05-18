@@ -29,7 +29,6 @@ STORAGES_STATICFILES_BACKEND = os.getenv("STORAGES_STATICFILES_BACKEND", "whiten
 # Para desarrollo usar STORAGES_STATICFILES_BACKEND=whitenoise.storage.CompressedStaticFilesStorage como variable de entorno
 
 STORAGES['staticfiles']['BACKEND'] = STORAGES_STATICFILES_BACKEND
-print("STORAGES['staticfiles']['BACKEND']", STORAGES['staticfiles']['BACKEND'])
 
 if DJANGO_STORAGE_BACKEND == "google":
     credentials = service_account.Credentials.from_service_account_info(json.loads(os.getenv("GS_CREDENTIALS")))

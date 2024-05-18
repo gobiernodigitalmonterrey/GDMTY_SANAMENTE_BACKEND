@@ -70,4 +70,3 @@ else:
         logger.error("No storages settings file found")
         RUN = False
         raise ImportError("No storages configuration file found")
-
