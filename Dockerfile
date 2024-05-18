@@ -16,7 +16,8 @@ ENV PYTHONUNBUFFERED=1 \
 
 # Install system packages required by Wagtail and Django.
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
-    build-essential vim libsqlite3-mod-spatialite \
+    build-essential  \
+    libsqlite3-mod-spatialite \
     libpq-dev \
     libgdal-dev \
     libjpeg62-turbo-dev \

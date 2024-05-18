@@ -14,7 +14,6 @@ INSTALLED_APPS += [
 
 # SECURITY WARNING: ¡No usar modo DEBUG en producción!
 DEBUG = ast.literal_eval(os.getenv("DEBUG", "False"))
-print("DEBUG", DEBUG)
 
 # SECURITY WARNING: ¡Mantener la secret key secreta en producción!
 SECRET_KEY = os.getenv("SECRET_KEY", "")
@@ -37,11 +36,12 @@ MIDDLEWARE += [
 
 AUDITLOG_INCLUDE_ALL_MODELS = True
 
-if SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
-# if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
+# if SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
+#    este es para debugear en modo producción, no usar
+
+if DEBUG is True or SECRET_KEY == "" or len(ALLOWED_HOSTS) == 0:
     RUN = False
-    logger.error(
-        "DEBUG is True or SECRET_KEY is empty or ALLOWED_HOSTS is empty, el servicio no se puede ejecutar en modo producción en estas condiciones")
+    logger.error(f"DEBUG: {DEBUG} - SECRET_KEY: {SECRET_KEY} - ALLOWED_HOSTS: {ALLOWED_HOSTS}")
     raise AssertionError("El servicio no se puede ejecutar por errores en la configuración de las variables de entorno")
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
@@ -68,7 +68,6 @@ else:
         from .storages import *
         STORAGES['default']['BACKEND'] = STORAGES_DEFAULT_BACKEND
         STORAGES['default']['OPTIONS'] = STORAGES_DEFAULT_OPTIONS
-        print("STORAGES", STORAGES)
     except ImportError:
         logger.error("No storages settings file found")
         RUN = False
@@ -81,11 +80,8 @@ try:
     try:
         index_session_middleware = MIDDLEWARE.index("django.contrib.sessions.middleware.SessionMiddleware")
     except ValueError:
-        # Si no se encuentra el middleware "django.contrib.sessions.middleware.SessionMiddleware",
-        # simplemente agregamos el nuevo middleware al final de la lista
         MIDDLEWARE.append('django_session_timeout.middleware.SessionTimeoutMiddleware')
     else:
-        # Insertar el nuevo middleware justo después del middleware "django.contrib.sessions.middleware.SessionMiddleware"
         MIDDLEWARE.insert(index_session_middleware + 1, 'django_session_timeout.middleware.SessionTimeoutMiddleware')
 except ImportError:
     logger.error("No se encontró el archivo de seguridad en las variables de entorno")
