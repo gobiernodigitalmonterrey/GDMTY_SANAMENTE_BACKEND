@@ -7,8 +7,6 @@ from google.oauth2 import service_account
 storages_logger = logging.getLogger(__name__)
 storages_logger.info("Mostrando log de storages settings")
 
-RUN_ENVIRONMENT = os.getenv("RUN_ENVIRONMENT", "dev")
-
 # Default storage settings, with the staticfiles storage updated.
 # See https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-STORAGES
 STORAGES = {
@@ -20,17 +18,17 @@ STORAGES = {
     # (e.g. after a Wagtail upgrade).
     # See https://docs.djangoproject.com/en/5.0/ref/contrib/staticfiles/#manifeststaticfilesstorage
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
 DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")
+DOCKER_BUILD = ast.literal_eval(os.getenv("DOCKER_BUILD", "False"))
 
-if RUN_ENVIRONMENT == "dev":
-    STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedStaticFilesStorage"
+STORAGES_STATICFILES_BACKEND = os.getenv("STORAGES_STATICFILES_BACKEND", "whitenoise.storage.CompressedManifestStaticFilesStorage")
+# Para desarrollo usar STORAGES_STATICFILES_BACKEND=whitenoise.storage.CompressedStaticFilesStorage como variable de entorno
 
-if RUN_ENVIRONMENT == "production":
-    STORAGES['staticfiles']['BACKEND'] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES['staticfiles']['BACKEND'] = STORAGES_STATICFILES_BACKEND
 
 if DJANGO_STORAGE_BACKEND == "google":
     credentials = service_account.Credentials.from_service_account_info(json.loads(os.getenv("GS_CREDENTIALS")))

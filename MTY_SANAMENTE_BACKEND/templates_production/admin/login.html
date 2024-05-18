@@ -3,6 +3,7 @@
 
 {% block extrastyle %}{{ block.super }}
     <link rel="stylesheet" href="{% static "admin/css/login.css" %}">
+    <link rel="stylesheet" href="{% static "admin/css/login.css" %}">
     {{ form.media }}
     <script src="{% static 'js/django-admin-login-captcha.js' %}" type="application/javascript"></script>
     <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
@@ -45,6 +46,7 @@
                 {% endblocktranslate %}
             </p>
         {% endif %}
+
         <form action="{{ app_path }}" method="post" id="login-form" autocomplete="off">{% csrf_token %}
             <div class="form-row">
                 {{ form.username.errors }}
@@ -62,14 +64,14 @@
                 </div>
             {% endif %}
             <div class="form-row" style="padding: 20px 0 10px 0; justify-content: center; display: flex;">
-                <div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LcIXkMoAAAAADzylxIr87nWykGc7YhxYpI0Pfnx"
+                <div id="g-recaptcha" class="g-recaptcha" data-sitekey="{{ RECAPTCHA_ENTERPRISE_SITE_KEY_CHALLENGE }}"
                      data-action="LOGIN"
                      data-callback="onRecaptchaVerify"></div>
             </div>
             <div class="submit-row">
                 <input id="django-admin-login-button" type="submit" value="{% translate 'Log in' %}" disabled="disabled">
             </div>
-
         </form>
+
     </div>
 {% endblock %}

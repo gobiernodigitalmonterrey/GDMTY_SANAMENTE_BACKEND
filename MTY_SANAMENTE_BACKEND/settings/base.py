@@ -19,8 +19,6 @@ logger = logging.getLogger(__name__)
 
 RUN = True
 
-RUN_ENVIRONMENT = os.getenv("RUN_ENVIRONMENT", "dev")
-
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
@@ -229,13 +227,4 @@ WAGTAIL_USER_CUSTOM_FIELDS = ['username']
 
 WAGTAILAPI_LIMIT_MAX = os.getenv("WAGTAILAPI_LIMIT_MAX", 1000)
 
-try:
-    from .security import *
-except ImportError:
-    logger.error("No se encontró el archivo de seguridad en las variables de entorno")
-    pass
 
-try:
-    from .local import *
-except ImportError:
-    pass
