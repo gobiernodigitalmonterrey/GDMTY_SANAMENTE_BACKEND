@@ -10,6 +10,7 @@ google-cloud-recaptcha-enterprise
 wagtailosm
 django-cors-headers
 django-threadlocals
+gdal
 pyproj
 django-storages
 gunicorn
