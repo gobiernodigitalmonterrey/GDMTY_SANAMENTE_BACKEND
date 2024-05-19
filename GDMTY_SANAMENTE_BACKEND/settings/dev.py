@@ -70,3 +70,16 @@ else:
         logger.error("No storages settings file found")
         RUN = False
         raise ImportError("No storages configuration file found")
+
+
+if ast.literal_eval(os.getenv("DEV_USE_HTTPS", "False")):
+    try:
+        from .security import *
+    except ImportError:
+        logger.error("No se encontró el archivo de seguridad en las variables de entorno")
+        raise ImportError("No se encontró el archivo de seguridad en las variables de entorno")
+
+try:
+    from .local import *
+except ImportError:
+    pass
