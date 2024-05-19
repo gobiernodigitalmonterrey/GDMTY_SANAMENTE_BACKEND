@@ -9,9 +9,8 @@ from django.conf import settings
 
 def get_rendition_attrs(rendition):
     attrs_dict = dict(rendition.attrs_dict)
-    if settings.DEVMODE:
-        if settings.DEFAULT_FILE_STORAGE != 'storages.backends.gcloud.GoogleCloudStorage':
-            attrs_dict['src'] = settings.WAGTAILADMIN_BASE_URL + attrs_dict['src']
+    if settings.DJANGO_STORAGE_BACKEND == 'local':
+        attrs_dict['src'] = settings.WAGTAILADMIN_BASE_URL + attrs_dict['src']
     return attrs_dict
 
 
