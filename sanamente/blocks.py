@@ -4,7 +4,8 @@ from wagtail.rich_text import expand_db_html
 from threadlocals.threadlocals import get_current_request
 from wagtail.images import blocks as image_blocks
 from .snippets import Color, Icono
-
+from wagtail.models import Site
+from django.utils.html import escape
 
 # Create your blocks here.
 
@@ -29,12 +30,38 @@ class RichTextBlock(core_blocks.RichTextBlock):
     def get_api_representation(self, instance, context=None):
         get_api_representation = super().get_api_representation(instance)
         representation = expand_db_html(get_api_representation)
-        # request = RequestMiddleware(get_response=None).thread_local.current_request
+
+        """
         request = get_current_request()
-        root_url = f"{request.scheme}://{request.get_host()}"
+        site = Site.find_for_request(request)
+        root_url = site.root_url if site else ''
         representation = representation.replace('src="/', f'src="{root_url}/').replace('\n', '') \
             .replace('href="/', f'href="{root_url}/') \
             .replace('<div>    <iframe', '<div class=\"custom-embed\"><iframe')
+        return representation
+        """
+
+        # Obtén el contexto si es posible
+        if context:
+            # Busca la página actual en el contexto
+            page = context.get('page')
+
+            # Si tienes acceso a la página actual
+            if page:
+                # Obtiene el sitio asociado con la página actual
+                site = Site.find_for_request(page.get_request())
+
+                # Obtiene la URL raíz del sitio
+                root_url = site.root_url if site else ''
+
+                # Escapa la URL raíz para evitar problemas de seguridad
+                root_url_escaped = escape(root_url)
+
+                # Realiza las modificaciones necesarias en la representación del API
+                representation = representation.replace('src="/', f'src="{root_url_escaped}/').replace('\n', '') \
+                    .replace('href="/', f'href="{root_url_escaped}/') \
+                    .replace('<div>    <iframe', '<div class=\"custom-embed\"><iframe')
+
         return representation
 
 
