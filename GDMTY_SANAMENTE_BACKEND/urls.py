@@ -6,9 +6,7 @@ from wagtail import urls as wagtail_urls
 from search import views as search_views
 from wtbase.urls import wagtailapi_router
 from django.views.generic import TemplateView
-from django.http import HttpResponse
 import os
-import redis
 
 urlpatterns = [
     path("dadmin/", admin.site.urls),
