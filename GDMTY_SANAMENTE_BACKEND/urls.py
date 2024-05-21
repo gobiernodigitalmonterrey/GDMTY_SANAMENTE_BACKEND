@@ -22,13 +22,6 @@ urlpatterns = [
     path("rest/v1/", wagtailapi_router.urls, name='wagtailapi_router'),
 ]
 
-if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] in ["production", "stagging"]:
-    urlpatterns += [
-        path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
-             name='robots.txt'),
-        # path('dadmin/defender/', include('gdmty_django_defender.urls')),
-    ]
-
 if DJANGO_SETTINGS_MODULE.split('.')[-1] in ["dev"]:
     urlpatterns += [
         path('rest/v1/schema/', SpectacularAPIView.as_view(), name='schema'),
@@ -38,7 +31,10 @@ if DJANGO_SETTINGS_MODULE.split('.')[-1] in ["dev"]:
 
 if DJANGO_SETTINGS_MODULE.split('.')[-1] in ["stagging", "production"]:
     urlpatterns.insert(0, path("wadmin/login/", LoginView.as_view(), name="wagtailadmin_login"))
-
+    urlpatterns += [
+        path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+             name='robots.txt'),
+    ]
 
 if settings.DEBUG:
     from django.conf.urls.static import static
