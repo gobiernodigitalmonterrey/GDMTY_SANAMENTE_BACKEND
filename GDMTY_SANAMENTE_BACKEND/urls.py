@@ -6,9 +6,11 @@ from wagtail import urls as wagtail_urls
 from search import views as search_views
 from wtbase.urls import wagtailapi_router
 from django.views.generic import TemplateView
-from django.http import HttpResponse
+from drf_spectacular.views import SpectacularSwaggerView, SpectacularAPIView, SpectacularRedocView
+from .views import LoginView
 import os
-import redis
+
+DJANGO_SETTINGS_MODULE = os.getenv("DJANGO_SETTINGS_MODULE", "GDMTY_SANAMENTE_BACKEND.settings.dev")
 
 urlpatterns = [
     path("dadmin/", admin.site.urls),
@@ -20,11 +22,18 @@ urlpatterns = [
     path("rest/v1/", wagtailapi_router.urls, name='wagtailapi_router'),
 ]
 
-if os.getenv("DJANGO_SETTINGS_MODULE").split('.')[-1] in ["production", "stagging"]:
+if DJANGO_SETTINGS_MODULE.split('.')[-1] in ["dev"]:
+    urlpatterns += [
+        path('rest/v1/schema/', SpectacularAPIView.as_view(), name='schema'),
+        path('rest/v1/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+        path('rest/v1/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc')
+    ]
+
+if DJANGO_SETTINGS_MODULE.split('.')[-1] in ["stagging", "production"]:
+    urlpatterns.insert(0, path("wadmin/login/", LoginView.as_view(), name="wagtailadmin_login"))
     urlpatterns += [
         path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
              name='robots.txt'),
-        # path('dadmin/defender/', include('gdmty_django_defender.urls')),
     ]
 
 if settings.DEBUG:
