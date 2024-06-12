@@ -30,7 +30,7 @@ if DJANGO_SETTINGS_MODULE.split('.')[-1] in ["dev"]:
     ]
 
 if DJANGO_SETTINGS_MODULE.split('.')[-1] in ["stagging", "production"]:
-    urlpatterns.insert(0, path("wadmin/login/", LoginView.as_view(), name="wagtailadmin_login"))
+    # urlpatterns.insert(0, path("wadmin/login/", LoginView.as_view(), name="wagtailadmin_login"))
     urlpatterns += [
         path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
              name='robots.txt'),
