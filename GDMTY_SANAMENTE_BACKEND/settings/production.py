@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 INSTALLED_APPS += [
     'auditlog',
-    'axes',
+    # 'axes',
 ]
 
 # SECURITY WARNING: ¡No usar modo DEBUG en producción!
@@ -29,7 +29,7 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", None)
 
 MIDDLEWARE += [
     'auditlog.middleware.AuditlogMiddleware',
-    'axes.middleware.AxesMiddleware',
+    # 'axes.middleware.AxesMiddleware',
 ]
 
 AUDITLOG_INCLUDE_ALL_MODELS = True
@@ -87,7 +87,7 @@ CACHES = ast.literal_eval(os.getenv("CACHES"))
 
 AUTHENTICATION_BACKENDS = [
     # AxesStandaloneBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
-    'axes.backends.AxesStandaloneBackend',
+    # "'axes.backends.AxesStandaloneBackend',
 
     # Django ModelBackend is the default authentication backend.
     'django.contrib.auth.backends.ModelBackend',
