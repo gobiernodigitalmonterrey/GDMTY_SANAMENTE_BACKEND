@@ -5,7 +5,6 @@ from wagtail.api import APIField
 from wagtail.admin.panels import FieldPanel
 from wagtail.admin.panels import TabbedInterface, ObjectList
 from wagtail.snippets.models import register_snippet
-from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail import fields as wagtail_fields
 from . import blocks as sanamente_blocks
 from .snippets import BiografiaAutor
